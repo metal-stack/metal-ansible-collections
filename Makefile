@@ -7,15 +7,18 @@ else
   DOCKER_TTY_ARG=t
 endif
 
-.PHONY: test
-test:
+.PHONY: test-local
+test-local:
 	docker pull ${DEPLOYMENT_BASE_IMAGE}:${DEPLOYMENT_BASE_TAG}
 	docker run --rm -i$(DOCKER_TTY_ARG) \
 		-v $(PWD):/work \
 		-v /var/run/docker.sock:/var/run/docker.sock \
 		-w /work ${DEPLOYMENT_BASE_IMAGE}:${DEPLOYMENT_BASE_TAG} \
 		bash -c \
-		"pip install --upgrade pip mock metal_python ansible-lint molecule[docker,lint] && make unit && cd partition && molecule lint || bash"
+		"make test || bash"
+
+.PHONY: test
+test: install unit molecule
 
 .PHONY: unit
 unit:
@@ -23,4 +26,8 @@ unit:
 
 .PHONY: molecule
 molecule:
-	molecule test
+	cd partition && molecule test
+
+.PHONY: install
+install:
+	pip install --upgrade pip mock metal_python ansible-lint molecule[docker,lint]
