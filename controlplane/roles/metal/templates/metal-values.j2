@@ -1,0 +1,203 @@
+---
+set_resource_limits: {{ metal_set_resource_limits }}
+
+zap_encoding: {{ metal_log_encoding }}
+zap_level: {{ metal_log_level }}
+
+images:
+  metal_api:
+    image: "{{ metal_api_image_name }}"
+    imagePullPolicy: "{{ metal_api_image_pull_policy }}"
+    tag: "{{ metal_api_image_tag }}"
+  metalctl:
+    image: "{{ metal_metalctl_image_name }}"
+    imagePullPolicy: "{{ metal_metalctl_image_pull_policy }}"
+    tag: "{{ metal_metalctl_image_tag }}"
+  metal_console:
+    image: "{{ metal_console_image_name }}"
+    imagePullPolicy: "{{ metal_console_image_pull_policy }}"
+    tag: "{{ metal_console_image_tag }}"
+  masterdata_api:
+    image: "{{ metal_masterdata_api_image_name }}"
+    imagePullPolicy: "{{ metal_masterdata_api_image_pull_policy }}"
+    tag: "{{ metal_masterdata_api_image_tag }}"
+
+resources:
+{% if metal_api_resources %}
+  metal_api: {{ metal_api_resources | to_json }}
+{% endif %}
+{% if metal_masterdata_api_resources %}
+  masterdata_api: {{ metal_masterdata_api_resources | to_json }}
+{% endif %}
+{% if metal_console_resources %}
+  metal_console: {{ metal_console_resources | to_json }}
+{% endif %}
+
+hpa:
+  metal_api:
+    enabled: {{ metal_api_hpa_enabled }}
+    max: {{ metal_api_hpa_max }}
+    min: {{ metal_api_hpa_min }}
+    cpu_percentage: {{ metal_api_hpa_cpu_percentage }}
+
+metal_console:
+  enabled: {{ metal_console_enabled }}
+  replicas: "{{ metal_console_replicas }}"
+  bmc_proxy:
+    tls:
+      server_key_enc: "{{ metal_console_bmc_proxy_certs_server_key | b64encode }}"
+      server_pub_enc: "{{ metal_console_bmc_proxy_certs_server_pub | b64encode }}"
+      client_key_enc: "{{ metal_console_bmc_proxy_certs_client_key | b64encode }}"
+      client_cert_enc: "{{ metal_console_bmc_proxy_certs_client_cert | b64encode }}"
+      ca_cert_enc: "{{ metal_console_bmc_proxy_certs_ca_cert | b64encode }}"
+
+ports:
+  metal_api: {{ metal_api_port }}
+  metal_api_grpc: {{ metal_api_grpc_port }}
+  metal_api_metrics: {{ metal_api_metrics_port }}
+  masterdata_api: {{ metal_masterdata_api_port }}
+  masterdata_api_metrics: {{ metal_masterdata_api_metrics_port }}
+  metal_console: {{ metal_console_port }}
+
+metal_api:
+  db_address: "{{ metal_api_db_address }}"
+  db_password: "{{ metal_api_db_password }}"
+  ipam_db_address: "{{ metal_api_ipam_db_address }}"
+  ipam_db_port: "{{ metal_api_ipam_db_port }}"
+  ipam_db_name: "{{ metal_api_ipam_db_name }}"
+  ipam_db_user: "{{ metal_api_ipam_db_user }}"
+  ipam_db_password: "{{ metal_api_ipam_db_password }}"
+  nsq:
+    lookupd_address: "{{ metal_api_nsq_lookupd_address }}"
+    tcp_address: "{{ metal_api_nsq_tcp_address }}"
+    http_address: "{{ metal_api_nsq_http_address }}"
+    tls:
+      enabled: {{ metal_api_nsq_tls_enabled }}
+      secret_name: "{{ metal_api_nsq_tls_secret_name }}"
+  grpc:
+    tls:
+      enabled: "{{ metal_api_grpc_tls_enabled }}"
+      server_key_enc: "{{ metal_api_grpc_certs_server_key | b64encode }}"
+      server_cert_enc: "{{ metal_api_grpc_certs_server_cert | b64encode }}"
+      ca_cert_enc: "{{ metal_api_grpc_certs_ca_cert | b64encode }}"
+  bmc:
+    superuser:
+      enabled: {{ metal_api_bmc_superuser_enabled }}
+      pwd_enc: "{{ metal_api_bmc_superuser_pwd | b64encode }}"
+  s3:
+    enabled: {{ metal_api_s3_enabled }}
+    address: {{ metal_api_s3_address }}
+    key: {{ metal_api_s3_key }}
+    secret: {{ metal_api_s3_secret }}
+    firmware_bucket: {{ metal_api_s3_firmware_bucket }}
+  headscale:
+    enabled: {{ metal_api_headscale_enabled }}
+    api_key: "{{ metal_api_headscale_api_key }}"
+    control_plane_address: "{{ metal_api_headscale_control_plane_address }}"
+    internal_api_address: "{{ metal_api_headscale_internal_api_address }}"
+  replicas: "{{ metal_api_replicas }}"
+  base_path: "{{ metal_api_base_path }}"
+  dex_address: "{{ metal_api_dex_address }}"
+  dex_clientid: "{{ metal_api_dex_clientid }}"
+  view_key: "{{ metal_api_view_key }}"
+  edit_key: "{{ metal_api_edit_key }}"
+  admin_key: "{{ metal_api_admin_key }}"
+{% if metal_api_password_reason_minlength %}
+  password_reason_minlength: "{{ metal_api_password_reason_minlength }}"
+{% endif %}
+  # let's create some multi-document YAMLs from our metal api masterdata def:
+  sizes: |
+{% for entity in metal_api_sizes %}
+    ---
+{# the byte sizes from humanfriendly are always casted to strings with latest Ansible and jinja2 versions (even with native env enabled) #}
+{# behaviour seems to be expected, so there we convert min/max fields manually here and assemble the entity #}
+{# https://github.com/ansible/ansible/issues/74980 #}
+{% set constraints=entity.pop('constraints') %}
+    {{ entity | to_nice_yaml | indent(width=4, first=false) }}
+    constraints:
+{% for constraint in constraints %}
+{% set min=constraint.pop('min') %}
+{% set max=constraint.pop('max') %}
+    - min: {{ min }}
+      max: {{ max }}
+      {{ constraint | to_nice_yaml | indent(width=6, first=false) }}
+{% endfor %}
+{% endfor %}
+  images: |
+{% for entity in metal_api_images %}
+    ---
+    {{ entity | to_nice_yaml | indent(width=4, first=false) }}
+{% endfor %}
+  partitions: |
+{% for entity in metal_api_partitions %}
+    ---
+    {{ entity | to_nice_yaml | indent(width=4, first=false) }}
+{% endfor %}
+  networks: |
+{% for entity in metal_api_networks %}
+    ---
+    {{ entity | to_nice_yaml | indent(width=4, first=false) }}
+{% endfor %}
+  ips: |
+{% for entity in metal_api_ips %}
+    ---
+    {{ entity | to_nice_yaml | indent(width=4, first=false) }}
+{% endfor %}
+  filesystemlayouts: |
+{% for entity in metal_api_filesystemlayouts %}
+    ---
+    {{ entity | to_nice_yaml | indent(width=4, first=false) }}
+{% endfor %}
+  sizeimageconstraints: |
+{% for entity in metal_api_sizeimageconstraints %}
+    ---
+    {{ entity | to_nice_yaml | indent(width=4, first=false) }}
+{% endfor %}
+
+masterdata_api:
+  provider_tenant: {{ metal_masterdata_api_provider_tenant }}
+  db_address: {{ metal_masterdata_api_db_address }}
+  db_port: {{ metal_masterdata_api_db_port }}
+  db_name: {{ metal_masterdata_api_db_name }}
+  db_user: {{ metal_masterdata_api_db_user }}
+  db_password: {{ metal_masterdata_api_db_password }}
+  tenants: |
+{% for entity in metal_masterdata_api_tenants %}
+    ---
+    {{ entity | to_nice_yaml | indent(width=4, first=false) }}
+{% endfor %}
+  ca: "{{ metal_masterdata_api_tls_ca | b64encode }}"
+  cert_key: "{{ metal_masterdata_api_tls_cert_key | b64encode }}"
+  cert: "{{ metal_masterdata_api_tls_cert | b64encode }}"
+  client_key: "{{ metal_masterdata_api_tls_client_key | b64encode }}"
+  client_cert: "{{ metal_masterdata_api_tls_client_cert | b64encode }}"
+  hmac: "{{ metal_masterdata_api_hmac }}"
+  projects: |
+    ---
+    # this is the project that can be used for metal-api master data
+    # e.g. creating networks, reserve ips, ... with this project
+    meta:
+      id: 00000000-0000-0000-0000-000000000000
+      kind: Project
+      apiversion: v1
+      version: 0
+    name: metal-system
+    description: Metal Master Project
+    tenant_id: {{ metal_masterdata_api_provider_tenant }}
+{% for entity in metal_masterdata_api_projects %}
+    ---
+    {{ entity | to_nice_yaml | indent(width=4, first=false) }}
+
+    tenant_id: {{ metal_masterdata_api_provider_tenant }}
+{% endfor %}
+
+ingress_public_dns: "{{ metal_ingress_dns }}"
+deploy_ingress: {{ metal_deploy_ingress }}
+ingress: {{ metal_ingress | to_json }}
+
+auditing:
+  enabled: {{ metal_auditing_enabled }}
+  index_prefix: "{{ metal_auditing_index_prefix }}"
+  index_interval: "{{ metal_auditing_index_interval }}"
+  existingMasterKeySecret: "metal-auditing-meili-api-key"
+  url: "{{ metal_auditing_url }}"

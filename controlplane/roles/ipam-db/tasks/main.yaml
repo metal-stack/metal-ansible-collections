@@ -1,0 +1,45 @@
+---
+- name: Gather release versions
+  setup_yaml:
+
+- name: Check mandatory variables for this role are set
+  assert:
+    fail_msg: "not all mandatory variables given, check role documentation"
+    quiet: yes
+    that:
+      - ipam_db_image_name is defined
+      - ipam_db_image_tag is defined
+      - ipam_db_backup_restore_sidecar_image_name is defined
+      - ipam_db_backup_restore_sidecar_image_tag is defined
+
+- name: Deploy ipam db
+  include_role:
+    name: metal-roles/control-plane/roles/postgres-backup-restore
+  vars:
+    postgres_name: "{{ ipam_db_name }}"
+    postgres_namespace: "{{ ipam_db_namespace }}"
+    postgres_image_pull_policy: "{{ ipam_db_image_pull_policy }}"
+    postgres_image_name: "{{ ipam_db_image_name }}"
+    postgres_image_tag: "{{ ipam_db_image_tag }}"
+    postgres_registry_auth_enabled: "{{ ipam_db_registry_auth_enabled }}"
+    postgres_registry_auth: "{{ ipam_db_registry_auth }}"
+    postgres_storage_size: "{{ ipam_db_storage_size }}"
+    postgres_storage_class: "{{ ipam_db_storage_class }}"
+    postgres_db: "{{ ipam_db_db }}"
+    postgres_user: "{{ ipam_db_user }}"
+    postgres_password: "{{ ipam_db_password }}"
+    postgres_max_connections: "{{ ipam_db_max_connections }}"
+    postgres_backup_restore_sidecar_image_pull_policy: "{{ ipam_db_backup_restore_sidecar_image_pull_policy }}"
+    postgres_backup_restore_sidecar_image_name: "{{ ipam_db_backup_restore_sidecar_image_name }}"
+    postgres_backup_restore_sidecar_image_tag: "{{ ipam_db_backup_restore_sidecar_image_tag }}"
+    postgres_backup_restore_sidecar_provider: "{{ ipam_db_backup_restore_sidecar_provider }}"
+    postgres_backup_restore_sidecar_backup_cron_schedule: "{{ ipam_db_backup_restore_sidecar_backup_cron_schedule }}"
+    postgres_backup_restore_sidecar_log_level: "{{ ipam_db_backup_restore_sidecar_log_level }}"
+    postgres_backup_restore_sidecar_object_prefix: "{{ ipam_db_backup_restore_sidecar_object_prefix }}"
+    postgres_backup_restore_sidecar_gcp_bucket_name: "{{ ipam_db_backup_restore_sidecar_gcp_bucket_name }}"
+    postgres_backup_restore_sidecar_gcp_backup_location: "{{ ipam_db_backup_restore_sidecar_gcp_backup_location }}"
+    postgres_backup_restore_sidecar_gcp_project_id: "{{ ipam_db_backup_restore_sidecar_gcp_project_id }}"
+    postgres_backup_restore_sidecar_gcp_serviceaccount_json: "{{ ipam_db_backup_restore_sidecar_gcp_serviceaccount_json }}"
+    postgres_resources: "{{ ipam_db_resources }}"
+    postgres_backup_restore_sidecar_object_max_keep: "{{ ipam_db_backup_restore_sidecar_object_max_keep }}"
+
