@@ -1,0 +1,4 @@
+---
+dependencies:
+  - metalstack.common.defaults
+  - metalstack.partition.defaults
