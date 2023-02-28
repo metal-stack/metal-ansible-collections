@@ -13,7 +13,7 @@ Stops a systemd unit and deletes its service definition.
 ```
 - name: cleanup metal-core service
   include_role:
-    name: systemd-docker-service-cleanup
+    name: metalstack.common.systemd_docker_service_cleanup
   vars:
     systemd_service_name: metal-core
 ```

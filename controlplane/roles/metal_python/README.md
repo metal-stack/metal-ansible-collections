@@ -22,17 +22,17 @@ None
 ```
 - name: Install metal-python
   include_role:
-    name: metal-roles/control-plane/roles/metal-python
+    name: metalstack.controlplane.metal-python
 
 - name: Install specific metal-python version
   include_role:
-    name: metal-roles/control-plane/roles/metal-python
+    name: metalstack.controlplane.metal-python
   vars:
     metal_python_version: "0.10.0"
 
 - name: Install metal-python devel branch
   include_role:
-    name: metal-roles/control-plane/roles/metal-python
+    name: metalstack.controlplane.metal-python
   vars:
     metal_python_version: "my-nice-feature"
     metal_python_install_from_git_repository: yes

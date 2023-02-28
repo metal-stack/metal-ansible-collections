@@ -34,7 +34,7 @@ Renders a systemd unit file that runs an application within a docker container.
 ```
 - name: deploy metal-core service
   include_role:
-    name: systemd-docker-service
+    name: metalstack.common.systemd_docker_service
   vars:
     systemd_service_name: metal-core
     systemd_docker_image_name: "{{ metal_core_image_name }}"
