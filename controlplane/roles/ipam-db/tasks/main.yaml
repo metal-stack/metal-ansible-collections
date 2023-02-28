@@ -1,6 +1,6 @@
 ---
 - name: Gather release versions
-  setup_yaml:
+  metalstack.common.setup_yaml:
 
 - name: Check mandatory variables for this role are set
   assert:
@@ -42,4 +42,3 @@
     postgres_backup_restore_sidecar_gcp_serviceaccount_json: "{{ ipam_db_backup_restore_sidecar_gcp_serviceaccount_json }}"
     postgres_resources: "{{ ipam_db_resources }}"
     postgres_backup_restore_sidecar_object_max_keep: "{{ ipam_db_backup_restore_sidecar_object_max_keep }}"
-

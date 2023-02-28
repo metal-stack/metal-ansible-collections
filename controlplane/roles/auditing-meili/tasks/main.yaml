@@ -1,6 +1,6 @@
 ---
 - name: Gather release versions
-  setup_yaml:
+  metalstack.common.setup_yaml:
 
 - name: Create namespace
   k8s:

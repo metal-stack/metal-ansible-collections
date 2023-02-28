@@ -1,9 +1,9 @@
 ---
 - name: Gather release versions
-  setup_yaml:
+  metalstack.common.setup_yaml:
 
 - name: Gather switch facts
-  switch_facts:
+  metalstack.common.switch_facts:
 
 - name: Check mandatory variables for this role are set
   assert:
