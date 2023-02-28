@@ -1,11 +1,11 @@
-# control-plane
+# controlplane
 
-Contains roles for deploying the metal-control-plane.
+A collection for deploying the metal-control-plane.
 
 ## Requirements
 
-- [ansible-common](https://github.com/metal-stack/ansible-common)
-- an ingress-controller in your cluster ([nginx-ingress](https://github.com/kubernetes/ingress-nginx) is the default of this project)
+- The `metalstack.common` collection
+- An ingress-controller in your cluster ([nginx-ingress](https://github.com/kubernetes/ingress-nginx) is the default of this project)
 - As our control plane also requires layer-4 services to be exposed to the outside world, you need to take care of exposing them in order to make them reachable from a partition. This can for instance be achieved through [tcp and udp service exposal of Kubernetes nginx-ingress](https://kubernetes.github.io/ingress-nginx/user-guide/exposing-tcp-udp-services/). You can look up how it can be done in the [mini-lab](https://github.com/metal-stack/mini-lab). Here comes the list of required ports:
 
     | Port  | Protocol | Service Name  | Description                   |
@@ -17,7 +17,7 @@ Contains roles for deploying the metal-control-plane.
 
 ## Variables
 
-The `control-plane-defaults` folder contains defaults that are used by multiple roles in the control-plane directory. You can look up all the default values [here](control-plane-defaults/main.yaml).
+The role [defaults](roles/defaults) contains default variables that are used by multiple roles in the controlplane collection. These are typically included via role dependency. You can look up all the default values [here](roles/defaults/main.yaml).
 
 | Name                                           | Mandatory | Description                                                                          |
 | ---------------------------------------------- | --------- | ------------------------------------------------------------------------------------ |
@@ -26,7 +26,6 @@ The `control-plane-defaults` folder contains defaults that are used by multiple 
 | metal_control_plane_stage_name                 |           | The name of the current stage, can be used for prefixing                             |
 | metal_control_plane_namespace                  |           | The target namespace of all deployed kubernetes resources of the metal-control-plane |
 | metal_control_plane_image_pull_policy          |           | Global value for an ImagePullPolicy that will be used for Kubernetes entities        |
-
 
 ## Roles
 

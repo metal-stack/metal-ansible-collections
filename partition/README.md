@@ -4,11 +4,11 @@ Contains roles for deploying the metal-partition.
 
 ## Requirements
 
-- [ansible-common](https://github.com/metal-stack/ansible-common)
+- The `metalstack.common` collection
 
 ## Variables
 
-The `partition-defaults` folder contains defaults that are used by multiple roles in the partition directory.
+The role [defaults](roles/defaults) contains default variables that are used by multiple roles in the partition collection. These are typically included via role dependency. You can look up all the default values [here](roles/defaults/main.yaml).
 
 You can look up all the default values [here](partition-defaults/main.yaml).
 
