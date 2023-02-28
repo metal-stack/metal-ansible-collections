@@ -1,15 +1,21 @@
 DEPLOYMENT_BASE_IMAGE := ghcr.io/metal-stack/metal-deployment-base
 DEPLOYMENT_BASE_TAG := latest
 
+ifeq ($(CI),true)
+  DOCKER_TTY_ARG=
+else
+  DOCKER_TTY_ARG=t
+endif
+
 .PHONY: test
 test:
 	docker pull ${DEPLOYMENT_BASE_IMAGE}:${DEPLOYMENT_BASE_TAG}
-	docker run --rm -it \
+	docker run --rm -i$(DOCKER_TTY_ARG) \
 		-v $(PWD):/work \
 		-v /var/run/docker.sock:/var/run/docker.sock \
 		-w /work ${DEPLOYMENT_BASE_IMAGE}:${DEPLOYMENT_BASE_TAG} \
 		bash -c \
-		"pip install --upgrade pip mock metal_python ansible-lint molecule[docker,lint] && make unit && cd partition && molecule lint"
+		"pip install --upgrade pip mock metal_python ansible-lint molecule[docker,lint] && make unit && cd partition && molecule lint || bash"
 
 .PHONY: unit
 unit:
