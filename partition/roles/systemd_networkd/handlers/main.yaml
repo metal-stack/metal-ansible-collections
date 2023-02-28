@@ -1,10 +1,10 @@
 ---
 - name: restart systemd-networkd
-  service:
+  ansible.builtin.service:
     name: systemd-networkd
     state: restarted
 
 - name: restart systemd-udev-trigger
-  service:
+  ansible.builtin.service:
     name: systemd-udev-trigger
     state: restarted

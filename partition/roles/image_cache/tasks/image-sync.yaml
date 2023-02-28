@@ -1,6 +1,6 @@
 ---
-- name: deploy image-sync service
-  include_role:
+- name: Deploy image-sync service
+  ansible.builtin.include_role:
     name: metalstack.common.systemd_docker_service
   vars:
     systemd_service_name: metal-image-cache-sync

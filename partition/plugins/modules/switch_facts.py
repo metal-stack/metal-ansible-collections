@@ -27,7 +27,7 @@ author:
 
 EXAMPLES = '''
 # Let's you gather switch facts
-- name: gather switch facts
+- name: Gather switch facts
   switch_facts:
 '''
 

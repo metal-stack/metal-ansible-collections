@@ -53,7 +53,7 @@ DOCUMENTATION = """
 
 EXAMPLES = """
 - name: Fetch a list of partition
-  set_fact:
+  ansible.builtin.set_fact:
     projects: "{{ lookup('metal', request='search', entity='partition') }}"
 """
 

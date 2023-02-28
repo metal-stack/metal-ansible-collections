@@ -3,7 +3,7 @@
   metalstack.partition.switch_facts:
 
 - name: Check mandatory variables for this role are set
-  assert:
+  ansible.builtin.assert:
     fail_msg: "not all mandatory variables given, check role documentation"
     quiet: yes
     that:
@@ -17,40 +17,40 @@
   loop_control:
     label: "{{ item.network }}"
 
-- name: install isc-dhcp-server
-  apt:
+- name: Install isc-dhcp-server
+  ansible.builtin.apt:
     name:
     - isc-dhcp-server
     update_cache: yes
 
-- name: render dhcpd conf
-  template:
+- name: Render dhcpd conf
+  ansible.builtin.template:
     src: dhcpd.conf.j2
     dest: /etc/dhcp/dhcpd.conf
   register: _dhcpd_conf
 
-- name: render isc-dhcp-server config
-  template:
+- name: Render isc-dhcp-server config
+  ansible.builtin.template:
     src: isc-dhcp-server.j2
     dest: /etc/default/isc-dhcp-server
   register: _isc_dhcp_server
 
-- name: render static hosts config
-  template:
+- name: Render static hosts config
+  ansible.builtin.template:
     src: dhcpd.hosts.j2
     dest: /etc/dhcp/dhcpd.hosts
   when: dhcp_static_hosts is defined
   register: _hosts_conf
 
-- name: restart isc-dhcp-server on config change
-  service:
+- name: Restart isc-dhcp-server on config change
+  ansible.builtin.service:
     name: "{{ dhcp_service_name }}"
     enabled: true
     state: restarted
   when: _dhcpd_conf is changed or _isc_dhcp_server is changed or _hosts_conf is changed
 
-- name: ensure isc-dhcp-server is running
-  service:
+- name: Ensure isc-dhcp-server is running
+  ansible.builtin.service:
     name: "{{ dhcp_service_name }}"
     enabled: true
     state: started

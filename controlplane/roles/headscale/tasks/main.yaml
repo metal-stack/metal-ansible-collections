@@ -3,7 +3,7 @@
   setup_yaml:
 
 - name: Check mandatory variables for this role are set
-  assert:
+  ansible.builtin.assert:
     fail_msg: "not all mandatory variables given, check role documentation"
     quiet: yes
     that:
@@ -60,11 +60,11 @@
     apply: yes
 
 - name: Determine if api key secret was already created
-  set_fact:
+  ansible.builtin.set_fact:
     headscale_api_key_already_created: "{{ lookup('k8s', api_version='v1', namespace=headscale_namespace, kind='Secret', resource_name='headscale-api-key') }}"
 
 - name: Wait until headscale deployment is ready
-  command: echo
+  ansible.builtin.command: echo
   changed_when: false
   retries: 20
   delay: 12
