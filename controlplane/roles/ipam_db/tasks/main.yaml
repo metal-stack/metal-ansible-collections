@@ -14,7 +14,7 @@
 
 - name: Deploy ipam db
   include_role:
-    name: metal-roles/control-plane/roles/postgres-backup-restore
+    name: metalstack.controlplane.postgres_backup_restore
   vars:
     postgres_name: "{{ ipam_db_name }}"
     postgres_namespace: "{{ ipam_db_namespace }}"

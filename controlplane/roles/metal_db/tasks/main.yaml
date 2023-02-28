@@ -14,7 +14,7 @@
 
 - name: Deploy metal db
   include_role:
-    name: metal-roles/control-plane/roles/rethinkdb-backup-restore
+    name: metalstack.controlplane.rethinkdb_backup_restore
   vars:
     rethinkdb_name: "{{ metal_db_name }}"
     rethinkdb_namespace: "{{ metal_db_namespace }}"

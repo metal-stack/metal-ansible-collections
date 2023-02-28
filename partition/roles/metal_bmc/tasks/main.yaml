@@ -67,7 +67,7 @@
 
 - name: deploy metal-bmc service
   include_role:
-    name: ansible-common/roles/systemd-docker-service
+    name: metalstack.common.systemd_docker_service
   vars:
     systemd_start: "{{ ensure_started.metal_bmc|default(true) }}"
     systemd_service_name: metal-bmc

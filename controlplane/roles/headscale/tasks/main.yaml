@@ -29,7 +29,7 @@
 
 - name: Deploy headscale db
   include_role:
-    name: metal-roles/control-plane/roles/postgres-backup-restore
+    name: metalstack.controlplane.postgres_backup_restore
   vars:
     postgres_name: "{{ headscale_db_name }}"
     postgres_namespace: "{{ headscale_namespace }}"

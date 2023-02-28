@@ -40,7 +40,7 @@
 
 - name: deploy gitlab-ci service
   include_role:
-    name: ansible-common/roles/systemd-docker-service
+    name: metalstack.common.systemd_docker_service
   vars:
     systemd_service_name: gitlab-ci
     systemd_docker_image_name: "{{ gitlab_runner_image }}"

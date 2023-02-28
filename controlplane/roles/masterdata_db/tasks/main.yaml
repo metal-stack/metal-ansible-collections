@@ -14,7 +14,7 @@
 
 - name: Deploy masterdata db
   include_role:
-    name: metal-roles/control-plane/roles/postgres-backup-restore
+    name: metalstack.controlplane.postgres_backup_restore
   vars:
     postgres_name: "{{ masterdata_db_name }}"
     postgres_namespace: "{{ masterdata_db_namespace }}"

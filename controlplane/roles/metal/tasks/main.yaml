@@ -38,7 +38,7 @@
 
 - name: Deploy metal control plane
   include_role:
-    name: ansible-common/roles/helm-chart
+    name: metalstack.common.helm_chart
   vars:
     helm_repo: "{{ metal_helm_chart_repo | default(omit) }}"
     helm_chart_version: "{{ metal_helm_chart_version | default(omit) }}"

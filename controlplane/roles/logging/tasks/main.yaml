@@ -14,7 +14,7 @@
 
 - name: Deploy loki-stack
   include_role:
-    name: ansible-common/roles/helm-chart
+    name: metalstack.common.helm_chart
   vars:
     helm_repo: "{{ logging_chart_repo }}"
     helm_chart: loki-stack

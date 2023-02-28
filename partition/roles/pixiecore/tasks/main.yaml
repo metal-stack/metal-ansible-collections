@@ -38,7 +38,7 @@
 
 - name: deploy pixiecore
   include_role:
-    name: ansible-common/roles/systemd-docker-service
+    name: metalstack.common.systemd_docker_service
   vars:
     systemd_service_name: pixiecore
     systemd_docker_image_name: "{{ pixiecore_image_name }}"

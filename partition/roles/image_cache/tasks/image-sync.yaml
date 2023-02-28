@@ -1,7 +1,7 @@
 ---
 - name: deploy image-sync service
   include_role:
-    name: ansible-common/roles/systemd-docker-service
+    name: metalstack.common.systemd_docker_service
   vars:
     systemd_service_name: metal-image-cache-sync
     systemd_docker_image_name: "{{ image_cache_sync_image_name }}"

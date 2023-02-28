@@ -26,7 +26,7 @@
 
 - name: Deploy meilisearch
   include_role:
-    name: ansible-common/roles/helm-chart
+    name: metalstack.common.helm_chart
   vars:
     helm_repo: "{{ metal_auditing_meili_chart_repo }}"
     helm_chart: meilisearch
