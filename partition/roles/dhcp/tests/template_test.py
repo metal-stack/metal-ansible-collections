@@ -1,6 +1,6 @@
 import unittest
 
-from test import read_template_file
+from tests import read_template_file
 
 from ansible.template import Templar
 
