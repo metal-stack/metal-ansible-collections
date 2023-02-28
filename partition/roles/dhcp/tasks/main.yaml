@@ -1,6 +1,6 @@
 ---
 - name: Gather switch facts
-  switch_facts:
+  metalstack.common.switch_facts:
 
 - name: Check mandatory variables for this role are set
   assert:
