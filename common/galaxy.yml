@@ -1,19 +1,17 @@
 ---
 namespace: metalstack
-name: deployment
+name: common
 version: 0.1.0
 readme: README.md
 authors:
 - metal-stack
-description: Ansible collection for deploying metal-stack.
+description: Ansible collection for providing common deployment parts for the metal-stack deployment.
 license:
 - MIT
-license_file: 'LICENSE'
+license_file: '../LICENSE'
 tags:
   - metalstack
-dependencies:
-  - metalstack.controlplane
-  - metalstack.partition
+dependencies: {}
 repository: https://github.com/metal-stack/metal-ansible-collection
 documentation: https://docs.metal-stack.io/
 homepage: https://metal-stack.io/stable/

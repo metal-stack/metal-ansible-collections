@@ -8,7 +8,7 @@ authors:
 description: Ansible collection for deploying a metal-stack partition.
 license:
 - MIT
-license_file: 'LICENSE'
+license_file: '../LICENSE'
 tags:
   - metalstack
 dependencies: {}
