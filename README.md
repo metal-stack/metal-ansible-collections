@@ -1,4 +1,4 @@
-# Ansible Collection - metalstack.deployment
+# Metal Ansible Collections
 
 This repository contains Ansible collections for deploying metal-stack.
 
@@ -18,6 +18,7 @@ collections:
   - name: https://github.com/metal-stack/metal-ansible-collections
     version: main # use release versions if you want to have stable deployment!
     type: git
+
 # you can find release versions here: https://github.com/metal-stack/releases
 ```
 

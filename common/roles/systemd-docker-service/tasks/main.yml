@@ -1,0 +1,36 @@
+---
+- name: template service {{ systemd_service_name }}
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/{{ systemd_service_name }}.service
+  register: result
+
+- name: reload daemon to have the unit file known by systemd
+  systemd:
+    name: "{{ systemd_service_name }}"
+    daemon_reload: yes
+  when:
+    - result is changed
+
+- name: pre-pull docker image
+  command: docker pull {{ systemd_docker_image_name }}:{{ systemd_docker_image_tag }}
+
+- name: start service {{ systemd_service_name }}
+  systemd:
+    name: "{{ systemd_service_name }}"
+    state: restarted
+    enabled: yes
+  when:
+    - result is changed or systemd_external_config_changed | bool
+    - systemd_start | bool
+  register: start_result
+  until: start_result is success
+  retries: 2
+  delay: 10
+
+- name: ensure service is started
+  systemd:
+    name: "{{ systemd_service_name }}"
+    state: started
+    enabled: yes
+  when: systemd_start | bool

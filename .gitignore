@@ -1,0 +1,8 @@
+.terraform
+*.retry
+**/.kubeconfig
+.idea
+.ansible
+*.py[co]
+__pycache__
+.Trash*
