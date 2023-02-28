@@ -1,7 +1,7 @@
 ---
 namespace: metalstack
 name: common
-version: 0.1.0
+version: 1.0.0
 readme: README.md
 authors:
 - metal-stack
@@ -10,7 +10,8 @@ license:
 - MIT
 license_file: '../LICENSE'
 tags:
-  - metalstack
+  - application
+  - cloud
 dependencies: {}
 repository: https://github.com/metal-stack/metal-ansible-collection
 documentation: https://docs.metal-stack.io/

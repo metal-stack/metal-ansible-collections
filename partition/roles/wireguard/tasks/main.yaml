@@ -20,7 +20,7 @@
   tags: wg-install
 
 - name: Enable packet forwarding for IPv4
-  sysctl:
+  ansible.posix.sysctl:
     name: net.ipv4.ip_forward
     value: "1"
     sysctl_set: yes
@@ -44,12 +44,14 @@
   tags: wg-generate-keys
 
 - name: Register if private key already exists
-  stat:
+  ansible.builtin.stat:
     path: "{{ private_key_file_path }}"
   register: private_key_file_stat
   tags: wg-generate-keys
 
 - name: Generate WireGuard key pair
+  when: not private_key_file_stat.stat.exists
+  tags: wg-generate-keys
   block:
   - name: generate WireGuard private key
     ansible.builtin.shell: "wg genkey | tee {{ private_key_file_path }}"
@@ -68,13 +70,11 @@
     ansible.builtin.set_fact:
       wg_public_key: "{{ wg_public_key_result.stdout }}"
 
-  when: not private_key_file_stat.stat.exists
-  tags: wg-generate-keys
-
 - name: Write WireGuard configuration
+  tags: wg-config
   block:
   - name: slurp private key file
-    slurp:
+    ansible.builtin.slurp:
       src: "{{ private_key_file_path }}"
     register: slurped_private_key
 
@@ -88,9 +88,8 @@
       src: wireguard_server.conf.j2
       owner: root
       group: root
-      mode: 640
+      mode: 0640
     notify: enable and restart wireguard
-  tags: wg-config
 
 - name: Start WireGuard
   ansible.builtin.service:

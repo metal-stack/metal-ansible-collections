@@ -9,12 +9,12 @@
       - lvm_lvs is not none
 
 - name: Create volumegroup
-  lvg:
+  community.general.system.lvg:
     vg: "{{ lvm_vg }}"
     pvs: "{{ lvm_pvs }}"
 
 - name: Create logical volumes
-  include_tasks: lv.yaml
+  ansible.builtin.include_tasks: lv.yaml
   loop: "{{ lvm_lvs }}"
   loop_control:
     loop_var: lv

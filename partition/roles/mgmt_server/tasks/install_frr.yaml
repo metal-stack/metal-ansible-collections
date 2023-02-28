@@ -5,7 +5,7 @@
     state: present
 
 - name: Add mainline FRR repository to install FRR
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: deb https://deb-us.frrouting.org/frr {{ ansible_distribution_release }} {{ mgmt_server_frr_repo }}
     state: present
     filename: frr.list
