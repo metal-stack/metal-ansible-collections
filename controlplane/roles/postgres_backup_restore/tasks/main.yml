@@ -14,5 +14,5 @@
 
 - name: Deploy postgres (backup-restore)
   k8s:
-    definition: "{{ lookup('template', 'postgres.yaml') }}"
+    definition: "{{ lookup('template', 'postgres.yaml.j2') }}"
     namespace: "{{ postgres_namespace }}"

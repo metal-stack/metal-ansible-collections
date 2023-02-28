@@ -12,5 +12,5 @@
 
 - name: Deploy nsq
   k8s:
-    definition: "{{ lookup('template', 'nsq.yaml') }}"
+    definition: "{{ lookup('template', 'nsq.yaml.j2') }}"
     namespace: "{{ metal_control_plane_namespace }}"

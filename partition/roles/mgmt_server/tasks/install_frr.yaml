@@ -15,7 +15,7 @@
     name:
     - frr={{ mgmt_server_frr_version }}*
     - frr-pythontools={{ mgmt_server_frr_version }}*
-    update_cache : yes
+    update_cache: yes
     force_apt_get: yes
 
 - name: enable bgp daemons required to run bgp

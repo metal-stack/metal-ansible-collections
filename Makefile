@@ -4,9 +4,12 @@ DEPLOYMENT_BASE_TAG := latest
 .PHONY: test
 test:
 	docker pull ${DEPLOYMENT_BASE_IMAGE}:${DEPLOYMENT_BASE_TAG}
-	docker run --rm -it -v $(PWD):/work -w /work ${DEPLOYMENT_BASE_IMAGE}:${DEPLOYMENT_BASE_TAG} bash -c \
-		"pip install --upgrade pip mock metal_python && make unit"
-		# "pip install mock metal_python molecule[docker,lint?] ansible-lint && make unit && make molecule"
+	docker run --rm -it \
+		-v $(PWD):/work \
+		-v /var/run/docker.sock:/var/run/docker.sock \
+		-w /work ${DEPLOYMENT_BASE_IMAGE}:${DEPLOYMENT_BASE_TAG} \
+		bash -c \
+		"pip install --upgrade pip mock metal_python ansible-lint molecule[docker,lint] && make unit && cd partition && molecule lint"
 
 .PHONY: unit
 unit:
@@ -14,4 +17,4 @@ unit:
 
 .PHONY: molecule
 molecule:
-	molecule converge
+	molecule test

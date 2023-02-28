@@ -3,7 +3,7 @@
   metalstack.common.setup_yaml:
 
 - name: Gather switch facts
-  metalstack.common.switch_facts:
+  metalstack.partition.switch_facts:
 
 - name: Check mandatory variables for this role are set
   assert:

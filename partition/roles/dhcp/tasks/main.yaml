@@ -1,6 +1,6 @@
 ---
 - name: Gather switch facts
-  metalstack.common.switch_facts:
+  metalstack.partition.switch_facts:
 
 - name: Check mandatory variables for this role are set
   assert:
@@ -21,7 +21,7 @@
   apt:
     name:
     - isc-dhcp-server
-    update_cache : yes
+    update_cache: yes
 
 - name: render dhcpd conf
   template:

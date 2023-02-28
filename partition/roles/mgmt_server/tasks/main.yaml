@@ -35,7 +35,7 @@
     - ipmitool
     - docker-ce
     - iptables-persistent
-    update_cache : yes
+    update_cache: yes
     force_apt_get: yes
 
 - name: copy docker daemon.json

@@ -1,0 +1,8 @@
+---
+- hosts: localhost
+  collections:
+    - metalstack.common
+    - metalstack.controlplane
+    - metalstack.partition
+  roles:
+    - dhcp

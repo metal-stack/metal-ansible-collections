@@ -55,7 +55,7 @@
 
 - name: Deploy headscale
   k8s:
-    definition: "{{ lookup('template', 'headscale.yaml') }}"
+    definition: "{{ lookup('template', 'headscale.yaml.j2') }}"
     namespace: "{{ headscale_namespace }}"
     apply: yes
 

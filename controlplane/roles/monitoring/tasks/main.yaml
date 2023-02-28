@@ -21,7 +21,7 @@
     helm_target_namespace: "{{ monitoring_namespace }}"
     helm_release_name: kube-prometheus-stack
     helm_chart_version: "{{ prometheus_chart_version }}"
-    helm_value_file_template: "prometheus-stack-values.yaml"
+    helm_value_file_template: "prometheus-stack-values.yaml.j2"
 
 - name: Deploy metrics exporters
   import_tasks: exporters.yaml

@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include partition.dhcp"
+      include_role:
+        name: "partition.dhcp"
