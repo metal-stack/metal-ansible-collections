@@ -1,4 +1,12 @@
 ---
+galaxy_info:
+  role_name: image_cache
+  author: metal-stack
+  description: This role is being used to deploy an image cache to a partition.
+  license: MIT
+  min_ansible_version: 2.10
+  galaxy_tags: []
+
 dependencies:
-  - metalstack.common.defaults
-  - metalstack.partition.defaults
+  - role: metalstack.common.defaults
+  - role: metalstack.partition.defaults
