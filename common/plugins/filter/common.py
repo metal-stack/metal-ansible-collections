@@ -39,7 +39,7 @@ def transpile_ignition_config(ignition_config):
     try:
         _ = get_bin_path("ct", required=True, opt_dirs=None)
     except ValueError as e:
-        raise AnsibleFilterError("ct needs to be installed: %s" % e.message)
+        raise AnsibleFilterError("ct needs to be installed: %s" % e)
 
     process = subprocess.Popen(["ct"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
     out, err = process.communicate(input=_encode(ignition_config))

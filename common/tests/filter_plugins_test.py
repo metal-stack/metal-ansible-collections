@@ -1,6 +1,6 @@
 import unittest
 
-from plugins.filter.common import parse_size
+from plugins.filter.common import parse_size, transpile_ignition_config
 from plugins.filter.common import FilterModule
 
 
@@ -28,3 +28,25 @@ class HumanfriendlyTest(unittest.TestCase):
         expected = 1024
 
         self.assertEqual(expected, actual)
+
+
+class TranspileIgnitionTest(unittest.TestCase):
+    def test_transpile_ignition_config(self):
+        userdata = """
+  storage:
+    files:
+     - path: /etc/sudoers.d/metal
+       filesystem: root
+       mode: 0600
+       contents:
+         inline: |
+            metal ALL=(ALL) NOPASSWD: ALL
+"""
+
+        actual = transpile_ignition_config(userdata)
+
+        expected = """
+{"ignition":{"config":{},"security":{"tls":{}},"timeouts":{},"version":"2.2.0"},"networkd":{},"passwd":{},"storage":{"files":[{"filesystem":"root","path":"/etc/sudoers.d/metal","contents":{"source":"data:,metal%20ALL%3D(ALL)%20NOPASSWD%3A%20ALL%0A","verification":{}},"mode":384}]},"systemd":{}}
+"""
+
+        self.assertEqual(expected.strip(), actual.strip())
