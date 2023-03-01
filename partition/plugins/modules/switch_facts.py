@@ -34,11 +34,12 @@ EXAMPLES = '''
 
 def file_contains(path, s):
     try:
-      with open(path, 'r') as f:
-          if s.lower() in f.read().lower():
-              return True
+        with open(path, 'r') as f:
+            if s.lower() in f.read().lower():
+                return True
     except:
-      return False
+        return False
+
     return False
 
 

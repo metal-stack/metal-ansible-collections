@@ -2,7 +2,7 @@
 dependency:
   name: galaxy
   env:
-    ANSIBLE_COLLECTIONS_PATH: "."
+    ANSIBLE_COLLECTIONS_PATH: "./common:./partition:./controlplane"
 driver:
   name: docker
 platforms:

@@ -13,7 +13,7 @@
       - metal_db_backup_restore_sidecar_image_tag is defined
 
 - name: Deploy metal db
-  include_role:
+  ansible.builtin.include_role:
     name: metalstack.controlplane.rethinkdb_backup_restore
   vars:
     rethinkdb_name: "{{ metal_db_name }}"

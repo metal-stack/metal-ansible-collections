@@ -33,7 +33,7 @@ Renders a systemd unit file that runs an application within a docker container.
 
 ```
 - name: deploy metal-core service
-  include_role:
+  ansible.builtin.include_role:
     name: metalstack.common.systemd_docker_service
   vars:
     systemd_service_name: metal-core

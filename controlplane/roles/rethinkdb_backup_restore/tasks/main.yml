@@ -20,6 +20,6 @@
       - rethinkdb_backup_restore_sidecar_image_tag is defined
 
 - name: Deploy rethinkdb (backup-restore)
-  k8s:
+  kubernetes.core.k8s:
     definition: "{{ lookup('template', 'rethinkdb.yaml.j2') }}"
     namespace: "{{ rethinkdb_namespace }}"

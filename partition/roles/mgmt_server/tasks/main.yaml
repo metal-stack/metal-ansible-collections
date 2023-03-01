@@ -74,7 +74,8 @@
   ansible.builtin.set_fact:
     frr_installed: "{{ ('frr' in ansible_facts and ansible_facts.packages['frr'] == mgmt_server_frr_version) | bool }}"
 
-- ansible.builtin.import_tasks: install_frr.yaml
+- name: Import FRR installation tasks
+  ansible.builtin.import_tasks: install_frr.yaml
   when: not frr_installed
 
 - name: Render FRR conf to apply the required BGP setup

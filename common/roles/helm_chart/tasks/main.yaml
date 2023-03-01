@@ -5,10 +5,9 @@
     state: directory
 
 - name: Copy over custom helm charts
-  synchronize:
+  ansible.posix.synchronize:
     src: "{{ helm_chart_custom_folder }}"
     dest: "{{ helm_chart_remote_temp }}"
-    use_ssh_args: yes
     delete: yes
   when: helm_chart_custom_folder is defined and helm_chart_custom_folder
 
@@ -31,7 +30,7 @@
            helm_config_params
       }}
 
-- name: Deploy helm chart ({{ helm_release_name }}{% if helm_chart_version is defined %} {{helm_chart_version}}{% endif %})
+- name: Deploy helm chart {{ '(' + helm_release_name + (' ' + helm_chart_version if helm_chart_version is defined else '') + ')' }}
   ansible.builtin.command: "{{ helm_bin }} upgrade
     --install
     --namespace {{ helm_target_namespace }}

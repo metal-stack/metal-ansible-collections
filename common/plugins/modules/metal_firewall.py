@@ -38,7 +38,7 @@ options:
     name:
         description:
             - >-
-              The name of the firewall, which must be unique within a project and partition 
+              The name of the firewall, which must be unique within a project and partition
               (in case id is not provided).
               Otherwise, the module cannot figure out if the firewall was already created or not.
         required: false
@@ -65,19 +65,19 @@ options:
     size:
         description:
             - The size of the firewall.
-        required: false    
-    networks: 
+        required: false
+    networks:
         description:
             - The networks of the firewall.
-        required: false    
+        required: false
     ips:
         description:
             - The ips of the firewall.
-        required: false    
+        required: false
     tags:
         description:
             - The tags of the firewall.
-        required: false              
+        required: false
     state:
         description:
           - Assert the state of the firewall.
@@ -99,7 +99,7 @@ EXAMPLES = '''
     name: my-firewall
     description: "my firewall"
     hostname: my-firewall
-    networks: 
+    networks:
     - internet
     - 5d30b3af-cb2a-4aa3-84e8-52dbf94a326b
     size: c1-xlarge-x86

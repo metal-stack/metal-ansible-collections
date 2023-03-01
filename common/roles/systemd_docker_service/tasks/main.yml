@@ -1,21 +1,21 @@
 ---
-- name: template service {{ systemd_service_name }}
+- name: Template service {{ systemd_service_name }}
   ansible.builtin.template:
     src: service.j2
     dest: /etc/systemd/system/{{ systemd_service_name }}.service
   register: result
 
-- name: reload daemon to have the unit file known by systemd
+- name: Reload daemon to have the unit file known by systemd
   ansible.builtin.systemd:
     name: "{{ systemd_service_name }}"
     daemon_reload: yes
   when:
     - result is changed
 
-- name: pre-pull docker image
+- name: Pre-pull docker image
   ansible.builtin.command: docker pull {{ systemd_docker_image_name }}:{{ systemd_docker_image_tag }}
 
-- name: start service {{ systemd_service_name }}
+- name: Start service {{ systemd_service_name }}
   ansible.builtin.systemd:
     name: "{{ systemd_service_name }}"
     state: restarted
@@ -28,7 +28,7 @@
   retries: 2
   delay: 10
 
-- name: ensure service is started
+- name: Ensure service is started
   ansible.builtin.systemd:
     name: "{{ systemd_service_name }}"
     state: started

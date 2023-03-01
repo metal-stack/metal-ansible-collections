@@ -1,0 +1,8 @@
+---
+collections:
+  - source: common
+    type: dir
+  - source: controlplane
+    type: dir
+  - source: partition
+    type: dir

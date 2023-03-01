@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include metalstack.partition.dhcp"
+      ansible.builtin.include_role:
+        name: "metalstack.partition.dhcp"

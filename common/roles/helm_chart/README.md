@@ -30,7 +30,7 @@ Installs a helm chart.
 
 ```
 - name: Deploy metal control plane
-  include_role:
+  ansible.builtin.include_role:
     name: metalstack.common.helm_chart
   vars:
     helm_chart_custom_folder: "{{ playbook_dir }}/roles/metal/files/metal-control-plane"

@@ -3,7 +3,7 @@
   metalstack.common.setup_yaml:
 
 - name: Create namespace {{ logging_namespace }}
-  k8s:
+  kubernetes.core.k8s:
     definition:
       apiVersion: v1
       kind: Namespace
@@ -13,7 +13,7 @@
           name: "{{ logging_namespace }}"
 
 - name: Deploy loki-stack
-  include_role:
+  ansible.builtin.include_role:
     name: metalstack.common.helm_chart
   vars:
     helm_repo: "{{ logging_chart_repo }}"
@@ -24,7 +24,7 @@
     helm_value_file_template: "loki-stack-values.yaml.j2"
 
 - name: Create monitoring ingress for Loki
-  k8s:
+  kubernetes.core.k8s:
     definition: "{{ lookup('template', 'loki_ingress.yaml.j2') }}"
     namespace: "{{ logging_namespace }}"
     apply: true

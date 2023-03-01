@@ -3,7 +3,7 @@
   metalstack.common.setup_yaml:
 
 - name: Create namespace
-  k8s:
+  kubernetes.core.k8s:
     definition:
       apiVersion: v1
       kind: Namespace
@@ -13,7 +13,7 @@
           name: "{{ auditing_meili_namespace }}"
 
 - name: Create meili secret
-  k8s:
+  kubernetes.core.k8s:
     definition:
       apiVersion: v1
       kind: Secret
@@ -25,7 +25,7 @@
   when: auditing_meili_secret
 
 - name: Deploy meilisearch
-  include_role:
+  ansible.builtin.include_role:
     name: metalstack.common.helm_chart
   vars:
     helm_repo: "{{ metal_auditing_meili_chart_repo }}"

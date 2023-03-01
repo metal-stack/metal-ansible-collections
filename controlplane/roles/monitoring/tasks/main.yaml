@@ -3,7 +3,7 @@
   metalstack.common.setup_yaml:
 
 - name: Create namespace {{ monitoring_namespace }}
-  k8s:
+  kubernetes.core.k8s:
     definition:
       apiVersion: v1
       kind: Namespace
@@ -13,7 +13,7 @@
           name: "{{ monitoring_namespace }}"
 
 - name: Deploy kube-prometheus-stack
-  include_role:
+  ansible.builtin.include_role:
     name: metalstack.common.helm_chart
   vars:
     helm_repo: "{{ prometheus_stack_repo }}"
@@ -24,10 +24,10 @@
     helm_value_file_template: "prometheus-stack-values.yaml.j2"
 
 - name: Deploy metrics exporters
-  import_tasks: exporters.yaml
+  ansible.builtin.import_tasks: exporters.yaml
 
 - name: Deploy Grafana dashboards
-  k8s:
+  kubernetes.core.k8s:
     definition: "{{ lookup('template', 'grafana-dashboards/' + item) }}"
     namespace: "{{ monitoring_namespace }}"
   loop:
@@ -36,7 +36,7 @@
      - rethinkdb.yaml
 
 - name: Create service monitors
-  k8s:
+  kubernetes.core.k8s:
     definition: "{{ lookup('template', 'servicemonitors/' + item) }}"
     namespace: "{{ monitoring_namespace }}"
   loop:

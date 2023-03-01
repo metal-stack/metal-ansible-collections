@@ -2,7 +2,6 @@ import sys
 from mock import patch
 from tests import (
     MetalModules,
-    AnsibleFailJson,
     AnsibleExitJson,
     set_module_args,
     MODULES_PATH,

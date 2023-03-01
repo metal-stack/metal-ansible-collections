@@ -34,7 +34,7 @@ options:
     name:
         description:
             - >-
-              The name of the ip, which must be unique within a project 
+              The name of the ip, which must be unique within a project
               (in case ip is not provided).
               Otherwise, the module cannot figure out if the ip was already created or not.
         required: false

@@ -8,7 +8,6 @@ import ipaddress
 
 from ansible.errors import AnsibleFilterError
 from ansible.module_utils.common.process import get_bin_path
-from ansible.module_utils._text import to_text
 from ansible.module_utils.six import next
 
 try:
@@ -38,7 +37,7 @@ def parse_size(user_input, binary=False):
 def transpile_ignition_config(ignition_config):
     '''https://github.com/coreos/container-linux-config-transpiler'''
     try:
-        bin_path = get_bin_path("ct", required=True, opt_dirs=None)
+        _ = get_bin_path("ct", required=True, opt_dirs=None)
     except ValueError as e:
         raise AnsibleFilterError("ct needs to be installed: %s" % e.message)
 
@@ -79,9 +78,6 @@ def _extract_peer_address(host, k8s_nodes):
     for node in k8s_nodes:
         if node['metadata']['name'] == host:
             cidr = node['spec']['podCIDR']
-            if PY2:
-                cidr = unicode(cidr)
-
             net = ipaddress.ip_network(cidr)
             gen = net.hosts()
             return str(next(gen))

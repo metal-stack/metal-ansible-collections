@@ -2,6 +2,7 @@
 - name: Retrieve list of available K8s versions
   ansible.builtin.command: gcloud container get-server-config --zone {{ gcp_location }} --format json
   register: gcp_k8s_versions
+  changed_when: false
   when: gcp_k8s_version is not defined
 
 - name: Extract latest K8s version from list

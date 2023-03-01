@@ -13,7 +13,7 @@
       - masterdata_db_backup_restore_sidecar_image_tag is defined
 
 - name: Deploy masterdata db
-  include_role:
+  ansible.builtin.include_role:
     name: metalstack.controlplane.postgres_backup_restore
   vars:
     postgres_name: "{{ masterdata_db_name }}"

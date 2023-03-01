@@ -27,7 +27,7 @@ unit:
 
 .PHONY: molecule
 molecule:
-	cd partition && molecule test
+	molecule test
 
 .PHONY: install
 install:

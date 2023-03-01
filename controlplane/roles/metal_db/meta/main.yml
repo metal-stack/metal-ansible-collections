@@ -1,4 +1,17 @@
 ---
+galaxy_info:
+  role_name: metal_db
+  author: metal-stack
+  description: This role provides a database for the metal-api that can be used for storing the main application data.
+  license: MIT
+  min_ansible_version: "2.10"
+  galaxy_tags: []
+
+  platforms:
+  - name: GenericLinux
+    versions:
+    - all
+
 dependencies:
-  - metalstack.common.defaults
-  - metalstack.controlplane.defaults
+  - role: metalstack.common.defaults
+  - role: metalstack.controlplane.defaults

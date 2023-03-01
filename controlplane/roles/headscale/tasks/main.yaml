@@ -1,6 +1,6 @@
 ---
 - name: Gather release versions
-  setup_yaml:
+  metalstack.common.setup_yaml:
 
 - name: Check mandatory variables for this role are set
   ansible.builtin.assert:
@@ -18,7 +18,7 @@
       - headscale_ingress_dns is not none
 
 - name: Create namespace for headscale
-  k8s:
+  kubernetes.core.k8s:
     definition:
       apiVersion: v1
       kind: Namespace
@@ -28,7 +28,7 @@
           name: "{{ headscale_namespace }}"
 
 - name: Deploy headscale db
-  include_role:
+  ansible.builtin.include_role:
     name: metalstack.controlplane.postgres_backup_restore
   vars:
     postgres_name: "{{ headscale_db_name }}"
@@ -54,7 +54,7 @@
     postgres_resources: "{{ headscale_db_resources }}"
 
 - name: Deploy headscale
-  k8s:
+  kubernetes.core.k8s:
     definition: "{{ lookup('template', 'headscale.yaml.j2') }}"
     namespace: "{{ headscale_namespace }}"
     apply: yes
@@ -82,7 +82,7 @@
     - not headscale_api_key_already_created
 
 - name: Create namespace for headscale
-  k8s:
+  kubernetes.core.k8s:
     definition:
       apiVersion: v1
       kind: Secret

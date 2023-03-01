@@ -43,7 +43,8 @@
   loop_control:
     index_var: i
 
-- ansible.builtin.import_tasks: vxlans.yaml
+- name: Import VXLANs
+  ansible.builtin.import_tasks: vxlans.yaml
   when: systemd_networkd_vxlans | length > 0
 
 - name: Flush handlers

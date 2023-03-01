@@ -1,3 +1,16 @@
 ---
+galaxy_info:
+  role_name: metal_python
+  author: metal-stack
+  description: Sets up metal-python.
+  license: MIT
+  min_ansible_version: "2.10"
+  galaxy_tags: []
+
+  platforms:
+  - name: GenericLinux
+    versions:
+    - all
+
 dependencies:
-  - metalstack.common.defaults
+  - role: metalstack.common.defaults

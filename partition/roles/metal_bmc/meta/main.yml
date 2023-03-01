@@ -1,4 +1,20 @@
 ---
+galaxy_info:
+  role_name: metal_bmc
+  author: metal-stack
+  description: Deploys the metal-bmc that gathers information about DHCP leases for ipmi access to servers.
+  license: MIT
+  min_ansible_version: "2.10"
+  galaxy_tags: []
+
+  platforms:
+  - name: Ubuntu
+    versions:
+    - all
+  - name: Debian
+    versions:
+    - all
+
 dependencies:
-  - metalstack.common.defaults
-  - metalstack.partition.defaults
+  - role: metalstack.common.defaults
+  - role: metalstack.partition.defaults
