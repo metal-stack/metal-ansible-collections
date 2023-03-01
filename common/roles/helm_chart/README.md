@@ -28,7 +28,7 @@ Installs a helm chart.
 
 ## Examples
 
-```
+```yaml
 - name: Deploy metal control plane
   ansible.builtin.include_role:
     name: metalstack.common.helm_chart

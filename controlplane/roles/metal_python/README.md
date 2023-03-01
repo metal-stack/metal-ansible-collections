@@ -19,7 +19,7 @@ None
 
 ## Examples
 
-```
+```yaml
 - name: Install metal-python
   ansible.builtin.include_role:
     name: metalstack.controlplane.metal-python
