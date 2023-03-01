@@ -3,6 +3,7 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
+    mode: 0750
   loop:
     - "{{ image_cache_coredns_host_dir_path }}/config"
 
@@ -12,7 +13,7 @@
     dest: "{{ image_cache_coredns_host_dir_path }}/config/{{ item.dest }}"
     owner: "root"
     group: "root"
-    mode: "0750"
+    mode: 0750
   loop:
     - src: corefile.j2
       dest: Corefile
@@ -36,3 +37,4 @@
     systemd_docker_command:
       - -conf
       - /root/Corefile
+  tags: skip_ansible_lint

@@ -10,6 +10,7 @@
   ansible.builtin.file:
     path: "{{ ztp_host_dir_path }}/config"
     state: directory
+    mode: 0644
 
 - name: Render ztp script
   ansible.builtin.template:

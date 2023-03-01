@@ -3,6 +3,7 @@
   ansible.builtin.template:
     src: service.j2
     dest: /etc/systemd/system/{{ systemd_service_name }}.service
+    mode: 0644
   register: result
 
 - name: Reload daemon to have the unit file known by systemd
@@ -11,9 +12,12 @@
     daemon_reload: yes
   when:
     - result is changed
+  tags: skip_ansible_lint
 
 - name: Pre-pull docker image
   ansible.builtin.command: docker pull {{ systemd_docker_image_name }}:{{ systemd_docker_image_tag }}
+  register: _pull_result
+  changed_when: "'Downloaded newer image' in _pull_result.stdout"
 
 - name: Start service {{ systemd_service_name }}
   ansible.builtin.systemd:
@@ -27,6 +31,7 @@
   until: start_result is success
   retries: 2
   delay: 10
+  tags: skip_ansible_lint
 
 - name: Ensure service is started
   ansible.builtin.systemd:

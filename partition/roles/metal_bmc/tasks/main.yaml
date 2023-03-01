@@ -21,6 +21,7 @@
   ansible.builtin.file:
     path: "{{ metal_bmc_nsq_cert_dir }}"
     state: directory
+    mode: 0640
   when: metal_bmc_nsq_tls_enabled
 
 - name: Copy nsq certificates
@@ -99,3 +100,4 @@
       METAL_BMC_CONSOLE_CA_CERT_FILE: "{{ metal_bmc_console_cert_dir }}/ca.pem"
       METAL_BMC_CONSOLE_CERT_FILE: "{{ metal_bmc_console_cert_dir }}/cert.pem"
       METAL_BMC_CONSOLE_KEY_FILE:  "{{ metal_bmc_console_cert_dir }}/key.pem"
+  tags: skip_ansible_lint

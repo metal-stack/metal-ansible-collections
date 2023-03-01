@@ -4,3 +4,4 @@
     --quiet
     --zone {{ gcp_location }}
     --account {{ gcp_service_account }}
+  changed_when: true

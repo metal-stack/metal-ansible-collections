@@ -3,6 +3,7 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
+    mode: 0755
   loop:
     - "{{ image_cache_haproxy_host_dir_path }}/config"
 
@@ -12,7 +13,7 @@
     dest: "{{ image_cache_haproxy_host_dir_path }}/config/haproxy.cfg"
     owner: "root"
     group: "root"
-    mode: "0755"
+    mode: 0755
   register: result
 
 - name: Deploy haproxy service
@@ -33,3 +34,4 @@
         target_port: "8443"
       - host_port: "65534"
         target_port: "65534"
+  tags: skip_ansible_lint

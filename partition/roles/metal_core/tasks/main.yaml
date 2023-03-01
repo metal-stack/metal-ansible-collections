@@ -18,6 +18,7 @@
   ansible.builtin.file:
     path: "{{ metal_core_grpc_cert_dir }}"
     state: directory
+    mode: 0640
 
 - name: Copy gRPC certificates
   ansible.builtin.copy:
@@ -54,6 +55,7 @@
       - sys_admin
     systemd_service_environment: "{{ lookup('template', 'metal-core-env.j2') | from_yaml }}"
     systemd_external_config_changed: "{{ grpc_certs is changed }}"
+  tags: skip_ansible_lint
 
 - name: Wait for metal-core to listen on metrics port
   ansible.builtin.wait_for:

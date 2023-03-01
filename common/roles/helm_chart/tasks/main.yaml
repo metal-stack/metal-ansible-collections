@@ -3,6 +3,7 @@
   ansible.builtin.file:
     path: "{{ helm_chart_remote_temp }}"
     state: directory
+    mode: 0600
 
 - name: Copy over custom helm charts
   ansible.posix.synchronize:
@@ -15,6 +16,7 @@
   ansible.builtin.template:
     src: "{{ helm_value_file_template }}"
     dest: "{{ helm_chart_remote_temp + '/' + helm_value_file_template | basename }}"
+    mode: 0600
   when: helm_value_file_template is defined and helm_value_file_template
 
 - name: Calculate hash of configuration

@@ -12,7 +12,6 @@
   ansible.builtin.apt:
     name: wireguard
     update_cache: yes
-    state: latest
   with_items:
     - wireguard
     - wireguard-dkms
@@ -65,6 +64,7 @@
   - name: Generate WireGuard public key
     ansible.builtin.shell: "echo {{ wg_private_key }} | wg pubkey | tee {{ public_key_file_path }}"
     register: wg_public_key_result
+    tags: skip_ansible_lint
 
   - name: Set public key fact
     ansible.builtin.set_fact:

@@ -10,9 +10,11 @@
 
 - name: Add dhcp relay interface
   ansible.builtin.command: net add dhcp relay interface {{ dhcp_relay_interface }}
+  changed_when: false
 
 - name: Remove priorly configured dhcp relay servers
   ansible.builtin.command: net del dhcp relay server
+  changed_when: false
 
 - name: Convert to list if dhcp_relay_server is only a string
   ansible.builtin.set_fact:
@@ -21,6 +23,10 @@
 - name: Add dhcp relay server
   ansible.builtin.command: net add dhcp relay server {{ item }}
   loop: "{{ _dhcp_relay_servers }}"
+  changed_when: false
 
 - name: Commit configuration
   ansible.builtin.command: net commit
+  register: result
+  # shows a diff when something has changed, the diff contains a "@@"
+  changed_when: "'@@' in result.stdout"

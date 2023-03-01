@@ -1,3 +1,4 @@
 ---
 - name: Authenticate at Google Cloud
   ansible.builtin.command: gcloud auth activate-service-account --project {{ gcp_project }} --key-file {{ gcp_service_account_file }}
+  changed_when: true

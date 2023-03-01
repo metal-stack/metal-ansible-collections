@@ -41,21 +41,25 @@
   ansible.builtin.file:
     path: /etc/docker
     state: directory
+    mode: 0644
 
 - name: Template daemon.json
   ansible.builtin.template:
     src: daemon.json.j2
     dest: /etc/docker/daemon.json
+    mode: 0644
 
 - name: Create override directory to systemd
   ansible.builtin.file:
     path: /etc/systemd/system/docker.service.d/
     state: directory
+    mode: 0644
 
 - name: Override systemd service startup
   ansible.builtin.template:
     src: docker-no-socket-mgmt-vrf.conf.j2
     dest: /etc/systemd/system/docker.service.d/docker-no-socket-mgmt-vrf.conf
+    mode: 0644
 
 - name: Enable and start docker.service
   ansible.builtin.systemd:
@@ -70,7 +74,7 @@
     dest: /etc/systemd/system/docker-system-prune.service
     owner: root
     group: root
-    mode: "0644"
+    mode: 0644
 
 - name: Create docker-system-prune.timer
   ansible.builtin.copy:
@@ -78,7 +82,7 @@
     dest: /etc/systemd/system/docker-system-prune.timer
     owner: root
     group: root
-    mode: "0644"
+    mode: 0644
 
 - name: Docker-system-prune.timer must be enabled and running
   ansible.builtin.systemd:

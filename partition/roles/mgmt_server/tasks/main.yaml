@@ -25,6 +25,7 @@
   ansible.builtin.template:
     src: resolved.conf.j2
     dest: /etc/systemd/resolved.conf
+    mode: 0644
   notify:
     - restart systemd-resolved
 
@@ -42,6 +43,7 @@
   ansible.builtin.template:
     src: daemon.json.j2
     dest: /etc/docker/daemon.json
+    mode: 0644
   notify: reload docker
 
 - name: Enable ipv4 forward to route packages as required
@@ -83,6 +85,7 @@
     src: frr.conf.j2
     dest: /etc/frr/frr.conf
     validate: '/usr/bin/vtysh --dryrun --inputfile %s'
+    mode: 0640
   notify:
     - reload frr
 
@@ -92,3 +95,4 @@
 - name: Flush dhcp routes if we have a bgp session to the firewall
   ansible.builtin.command: ip route flush proto dhcp
   when: mgmt_server_firewall_ip is defined
+  changed_when: true
