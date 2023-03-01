@@ -73,7 +73,7 @@
 - name: Write WireGuard configuration
   tags: wg-config
   block:
-  - name: slurp private key file
+  - name: Slurp private key file
     ansible.builtin.slurp:
       src: "{{ private_key_file_path }}"
     register: slurped_private_key

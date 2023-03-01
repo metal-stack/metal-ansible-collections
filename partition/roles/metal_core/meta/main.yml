@@ -1,4 +1,20 @@
 ---
+galaxy_info:
+  role_name: metal_core
+  author: metal-stack
+  description: Deploys pixiecore in a systemd-managed Docker container.
+  license: MIT
+  min_ansible_version: "2.10"
+  galaxy_tags: []
+
+  platforms:
+  - name: Cumulus
+    versions:
+    - all
+  - name: Debian
+    versions:
+    - all
+
 dependencies:
-  - metalstack.common.defaults
-  - metalstack.partition.defaults
+  - role: metalstack.common.defaults
+  - role: metalstack.partition.defaults

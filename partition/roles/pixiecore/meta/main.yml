@@ -4,8 +4,16 @@ galaxy_info:
   author: metal-stack
   description: Deploys metal-core in a systemd-managed Docker container.
   license: MIT
-  min_ansible_version: 2.10
+  min_ansible_version: "2.10"
   galaxy_tags: []
+
+  platforms:
+  - name: Cumulus
+    versions:
+    - all
+  - name: Debian
+    versions:
+    - all
 
 dependencies:
   - role: metalstack.common.defaults
