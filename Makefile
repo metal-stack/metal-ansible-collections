@@ -8,8 +8,8 @@ else
   DOCKER_TTY_ARG=t
 endif
 
-.PHONY: test-local
-test-local:
+.PHONY: test-in-docker
+test-in-docker:
 	docker pull ${DEPLOYMENT_BASE_IMAGE}:${DEPLOYMENT_BASE_TAG}
 	docker run --rm -i$(DOCKER_TTY_ARG) $(FORCE_COLORS) \
 		-v $(PWD):/work \
