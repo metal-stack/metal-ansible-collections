@@ -11,7 +11,7 @@ A collection for deploying the metal-control-plane.
     | Port  | Protocol | Service Name  | Description                   |
     | ----- | -------- | ------------- | ----------------------------- |
     | 4150  | TCP      | nsqd          | nsq Daemon (HTTPS)            |
-    | 4161  | TCP      | nsq-lookupd   | nsqlookup Damon (HTTP)        |
+    | 4161  | TCP      | nsq-lookupd   | nsqlookup Daemon (HTTP)       |
     | 5222  | TCP      | metal-console | Console forwarding (SSH)      |
     | 50051 | TCP      | metal-api     | metal-api gRPC API (protobuf) |
 
