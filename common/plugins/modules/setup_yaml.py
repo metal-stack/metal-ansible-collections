@@ -17,10 +17,10 @@ module: setup_yaml
 short_description: Resolves variables from a remote YAML file
 version_added: "2.9"
 description:
-    - This module maps contents of a remote YAML file to ansible_facts according to a given variable mapping. 
+    - This module maps contents of a remote YAML file to ansible_facts according to a given variable mapping.
     - Within a YAML file, it is also possible to point to other YAML files, which will then be resolved recursively.
     - This module can pick up some variables "magically", which makes the module very versatile
-      but also causes some conventions that need to be followed when using this module. 
+      but also causes some conventions that need to be followed when using this module.
     - Please check out the examples of how to use it.
 options:
     files:
@@ -31,7 +31,7 @@ options:
         required: false
     smart:
         description:
-            - Will make this module skip in case it was already executed. 
+            - Will make this module skip in case it was already executed.
               Sets a marker into the vars to prevent repeated execution.
             - This parameter can be "magically" provided by defining the variable `setup_yaml_smart`
         required: false
@@ -49,7 +49,7 @@ options:
 author:
     - metal-stack
 notes:
-    - We typically use this module for dynamically providing docker image version variables to ansible roles. 
+    - We typically use this module for dynamically providing docker image version variables to ansible roles.
       In the metal-stack docs, we will also call the contents of the downloaded YAML file a release vector.
 '''
 
@@ -63,11 +63,11 @@ EXAMPLES = '''
 #     name: hello-world
 #     tag: v0.2.0
 # ...
-# 
+#
 # Let's now define the following task:
 
 - name: gather release versions
-  setup_yaml:
+  metalstack.common.setup_yaml:
     files:
       - url: https://example.com/v1.0.0/example.yaml
         mapping:
@@ -96,7 +96,7 @@ EXAMPLES = '''
 # Then, you could just write a task definition like this:
 
 - name: gather release versions
-  setup_yaml:
+  metalstack.common.setup_yaml:
 
 # The "magic" lookup is extremely helpful because the "example_release" variable can be provided by external roles.
 # This could mean that the direct consumer does not need to know the variable mapping.
@@ -105,7 +105,7 @@ EXAMPLES = '''
 #
 #
 - name: gather release versions
-  setup_yaml:
+  metalstack.common.setup_yaml:
     files:
       - url: https://example.com/v1.0.0/example.yaml
         mapping:

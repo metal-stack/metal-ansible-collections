@@ -1,10 +1,10 @@
 ---
-metal_check_api_available: yes
+metal_check_api_available: true
 
 metal_helm_chart_local_path:
 metal_helm_chart_timeout: "600s"
 
-metal_set_resource_limits: yes
+metal_set_resource_limits: true
 
 metal_check_api_health_endpoint: https://{{ metal_api_ingress_dns }}{{ metal_api_base_path }}v1/health
 
@@ -97,7 +97,7 @@ metal_ingress_dns: api.{{ metal_control_plane_ingress_dns }}
 
 # headscale
 metal_api_headscale_enabled: false
-metal_api_headscale_tls: yes
+metal_api_headscale_tls: true
 metal_api_headscale_api_key: "{{ lookup('k8s', api_version='v1', namespace=metal_control_plane_namespace, kind='Secret', resource_name='headscale-api-key').get('data', {}).get('key') | b64decode if metal_api_headscale_enabled else '' }}"
 metal_api_headscale_control_plane_address: "http{{ 's' if metal_api_headscale_tls }}://headscale.{{ metal_control_plane_ingress_dns }}"
 metal_api_headscale_internal_api_address: "headscale:50443"

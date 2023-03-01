@@ -20,7 +20,7 @@ metal_db_backup_restore_sidecar_gcp_backup_location:
 metal_db_backup_restore_sidecar_gcp_project_id:
 metal_db_backup_restore_sidecar_gcp_serviceaccount_json:
 
-metal_db_expose_frontend: no
+metal_db_expose_frontend: false
 metal_db_ingress_dns: rethinkdb.{{ metal_control_plane_ingress_dns }}
 
 metal_db_resources:

@@ -3,24 +3,25 @@
   metalstack.common.setup_yaml:
 
 - name: Gather switch facts
-  metalstack.common.switch_facts:
+  metalstack.partition.switch_facts:
 
 - name: Check mandatory variables for this role are set
-  assert:
+  ansible.builtin.assert:
     fail_msg: "not all mandatory variables given, check role documentation"
-    quiet: yes
+    quiet: true
     that:
       - metal_core_image_name is defined
       - metal_core_image_tag is defined
       - metal_core_rack_id is not none
 
-- name: create gRPC certs directory
-  file:
+- name: Create gRPC certs directory
+  ansible.builtin.file:
     path: "{{ metal_core_grpc_cert_dir }}"
     state: directory
+    mode: 0640
 
-- name: copy gRPC certificates
-  copy:
+- name: Copy gRPC certificates
+  ansible.builtin.copy:
     dest: "{{ metal_core_grpc_cert_dir }}/{{ item.filename }}"
     mode: 0640
     content: "{{ item.content }}"
@@ -36,8 +37,8 @@
     label: "{{ item.filename }}"
   register: grpc_certs
 
-- name: deploy metal-core
-  include_role:
+- name: Deploy metal-core
+  ansible.builtin.include_role:
     name: metalstack.common.systemd_docker_service
   vars:
     systemd_service_name: metal-core
@@ -54,9 +55,10 @@
       - sys_admin
     systemd_service_environment: "{{ lookup('template', 'metal-core-env.j2') | from_yaml }}"
     systemd_external_config_changed: "{{ grpc_certs is changed }}"
+  tags: skip_ansible_lint
 
-- name: wait for metal-core to listen on metrics port
-  wait_for:
+- name: Wait for metal-core to listen on metrics port
+  ansible.builtin.wait_for:
     port: 2112
     timeout: 300
     msg: "metal-core did not come up"

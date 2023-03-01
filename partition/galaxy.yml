@@ -1,21 +1,23 @@
 ---
 namespace: metalstack
 name: partition
-version: 0.1.0
+version: 1.0.0
 readme: README.md
 authors:
-- metal-stack
+  - metal-stack
 description: Ansible collection for deploying a metal-stack partition.
 license:
-- MIT
+  - MIT
 license_file: '../LICENSE'
 tags:
-  - metalstack
+  - application
+  - cloud
 dependencies: {}
 repository: https://github.com/metal-stack/metal-ansible-collection
 documentation: https://docs.metal-stack.io/
 homepage: https://metal-stack.io/stable/
 issues: https://github.com/metal-stack/metal-ansible-collection/issues
+
 
 # A list of file glob-like patterns used to filter any files or directories that should not be included in the build
 # artifact. A pattern is matched from the relative path of the file or directory of the collection directory. This

@@ -1,25 +1,29 @@
 ---
-- name: template service {{ systemd_service_name }}
-  template:
+- name: Template service {{ systemd_service_name }}
+  ansible.builtin.template:
     src: service.j2
     dest: /etc/systemd/system/{{ systemd_service_name }}.service
+    mode: 0644
   register: result
 
-- name: reload daemon to have the unit file known by systemd
-  systemd:
+- name: Reload daemon to have the unit file known by systemd
+  ansible.builtin.systemd:
     name: "{{ systemd_service_name }}"
-    daemon_reload: yes
+    daemon_reload: true
   when:
     - result is changed
+  tags: skip_ansible_lint
 
-- name: pre-pull docker image
-  command: docker pull {{ systemd_docker_image_name }}:{{ systemd_docker_image_tag }}
+- name: Pre-pull docker image
+  ansible.builtin.command: docker pull {{ systemd_docker_image_name }}:{{ systemd_docker_image_tag }}
+  register: _pull_result
+  changed_when: "'Downloaded newer image' in _pull_result.stdout"
 
-- name: start service {{ systemd_service_name }}
-  systemd:
+- name: Start service {{ systemd_service_name }}
+  ansible.builtin.systemd:
     name: "{{ systemd_service_name }}"
     state: restarted
-    enabled: yes
+    enabled: true
   when:
     - result is changed or systemd_external_config_changed | bool
     - systemd_start | bool
@@ -27,10 +31,11 @@
   until: start_result is success
   retries: 2
   delay: 10
+  tags: skip_ansible_lint
 
-- name: ensure service is started
-  systemd:
+- name: Ensure service is started
+  ansible.builtin.systemd:
     name: "{{ systemd_service_name }}"
     state: started
-    enabled: yes
+    enabled: true
   when: systemd_start | bool

@@ -1,6 +1,7 @@
 # monitoring
 
-This role is designed to set up monitoring using Ansible.
+This role is designed to set up metal-stack monitoring.
+
 The role includes tasks to install and configure the following monitoring tools:
 
 - Prometheus

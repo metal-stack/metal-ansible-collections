@@ -1,8 +1,8 @@
 ---
-- name: check mandatory variables for this role are set
-  assert:
+- name: Check mandatory variables for this role are set
+  ansible.builtin.assert:
     fail_msg: "not all mandatory variables given, check role documentation"
-    quiet: yes
+    quiet: true
     that:
       - gitlab_runner_url is not none
       - gitlab_runner_token is not none
@@ -10,20 +10,20 @@
       - gitlab_runner_tags is not none
       - gitlab_runner_hostpath is not none
 
-- name: install docker as a prerequisite to gitlabci
-  apt:
+- name: Install docker as a prerequisite to gitlabci
+  ansible.builtin.apt:
     name:
-    - docker.io
+      - docker.io
 
-- name: check if runner is already registered to avoid double registration
-  command: grep -Fxq "[[runners]]" {{ gitlab_runner_hostpath }}/etc/gitlab-runner/config.toml
+- name: Check if runner is already registered to avoid double registration
+  ansible.builtin.command: grep -Fxq "[[runners]]" {{ gitlab_runner_hostpath }}/etc/gitlab-runner/config.toml
   register: check_runners
   failed_when: false
   check_mode: false
   changed_when: false
 
-- name: register runner to GitLab when no config exists
-  command: /usr/bin/docker run --rm \
+- name: Register runner to GitLab when no config exists
+  ansible.builtin.command: /usr/bin/docker run --rm \
     -v "/run/docker/.sock:/run/docker.sock" \
     -v "{{ gitlab_runner_hostpath }}/etc/gitlab-runner:/etc/gitlab-runner" \
     -v "{{ gitlab_runner_hostpath }}/cache:/cache" \
@@ -37,9 +37,10 @@
     --docker-image '{{ gitlab_runner_image_tag }}'
     --tag-list '{{ gitlab_runner_tags }}'
   when: check_runners.rc != 0
+  changed_when: true
 
-- name: deploy gitlab-ci service
-  include_role:
+- name: Deploy gitlab-ci service
+  ansible.builtin.include_role:
     name: metalstack.common.systemd_docker_service
   vars:
     systemd_service_name: gitlab-ci
@@ -54,8 +55,8 @@
     systemd_docker_command:
       - run
 
-- name: set gitlab-runner volume config
-  lineinfile:
+- name: Set gitlab-runner volume config
+  ansible.builtin.lineinfile:
     path: "{{ gitlab_runner_hostpath }}/etc/gitlab-runner/config.toml"
     regexp: "volumes"
     line: '    volumes = ["/gitlabci/cache:/cache","/gitlabci/ssh:/ssh"]'

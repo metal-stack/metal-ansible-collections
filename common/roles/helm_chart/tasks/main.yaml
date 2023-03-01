@@ -1,25 +1,26 @@
 ---
 - name: Create folder for charts and values
-  file:
+  ansible.builtin.file:
     path: "{{ helm_chart_remote_temp }}"
     state: directory
+    mode: 0600
 
 - name: Copy over custom helm charts
-  synchronize:
+  ansible.posix.synchronize:
     src: "{{ helm_chart_custom_folder }}"
     dest: "{{ helm_chart_remote_temp }}"
-    use_ssh_args: yes
-    delete: yes
+    delete: true
   when: helm_chart_custom_folder is defined and helm_chart_custom_folder
 
 - name: Template helm value file
-  template:
+  ansible.builtin.template:
     src: "{{ helm_value_file_template }}"
     dest: "{{ helm_chart_remote_temp + '/' + helm_value_file_template | basename }}"
+    mode: 0600
   when: helm_value_file_template is defined and helm_value_file_template
 
 - name: Calculate hash of configuration
-  set_fact:
+  ansible.builtin.set_fact:
     _helm_chart_combined_params: |
       {{ helm_config_params.update(
           {'helm_chart.config_hash': (
@@ -31,8 +32,8 @@
            helm_config_params
       }}
 
-- name: Deploy helm chart ({{ helm_release_name }}{% if helm_chart_version is defined %} {{helm_chart_version}}{% endif %})
-  command: "{{ helm_bin }} upgrade
+- name: Deploy helm chart {{ '(' + helm_release_name + (' ' + helm_chart_version if helm_chart_version is defined else '') + ')' }}
+  ansible.builtin.command: "{{ helm_bin }} upgrade
     --install
     --namespace {{ helm_target_namespace }}
     {% if helm_kubeconfig is defined %}--kubeconfig {{ helm_kubeconfig }}{% endif %}
@@ -48,4 +49,4 @@
     {{ helm_chart }}"
   args:
     chdir: "{{ helm_chart_remote_temp }}"
-  changed_when: yes
+  changed_when: true

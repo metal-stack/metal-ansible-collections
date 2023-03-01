@@ -1,18 +1,19 @@
 ---
-- name: create coredns directories
-  file:
+- name: Create coredns directories
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
+    mode: 0750
   loop:
     - "{{ image_cache_coredns_host_dir_path }}/config"
 
-- name: template coredns config
-  template:
+- name: Template coredns config
+  ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ image_cache_coredns_host_dir_path }}/config/{{ item.dest }}"
     owner: "root"
     group: "root"
-    mode: "0750"
+    mode: 0750
   loop:
     - src: corefile.j2
       dest: Corefile
@@ -20,8 +21,8 @@
       dest: metal-image-cache.db
   register: result
 
-- name: deploy coredns service
-  include_role:
+- name: Deploy coredns service
+  ansible.builtin.include_role:
     name: metalstack.common.systemd_docker_service
   vars:
     systemd_service_name: coredns
@@ -36,3 +37,4 @@
     systemd_docker_command:
       - -conf
       - /root/Corefile
+  tags: skip_ansible_lint

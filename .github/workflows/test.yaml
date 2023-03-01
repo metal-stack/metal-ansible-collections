@@ -4,11 +4,20 @@ on:
   push:
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
-    container: metalstack/metal-deployment-base:latest
     steps:
       - uses: actions/checkout@v3
+
       - name: Test
-        run: |
-          make test
+        run: make test-in-docker
+
+  markdown-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: markdownlint-cli
+        uses: nosborn/github-action-markdown-cli@v3.2.0
+        with:
+          files: .

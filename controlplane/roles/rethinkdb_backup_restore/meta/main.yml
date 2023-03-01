@@ -1,4 +1,17 @@
 ---
+galaxy_info:
+  role_name: rethinkdb_backup_restore
+  author: metal-stack
+  description: Deploys a rethinkdb database together with a backup-restore-sidecar.
+  license: MIT
+  min_ansible_version: "2.10"
+  galaxy_tags: []
+
+  platforms:
+    - name: GenericLinux
+      versions:
+        - all
+
 dependencies:
-  - metalstack.common.defaults
-  - metalstack.controlplane.defaults
+  - role: metalstack.common.defaults
+  - role: metalstack.controlplane.defaults
