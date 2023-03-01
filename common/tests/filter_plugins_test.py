@@ -1,9 +1,5 @@
-import sys
 import unittest
 
-from tests import FILTER_PLUGINS_PATH
-
-sys.path.insert(0, FILTER_PLUGINS_PATH)
 from plugins.filter.common import parse_size
 from plugins.filter.common import FilterModule
 

@@ -37,7 +37,7 @@ def file_contains(path, s):
         with open(path, 'r') as f:
             if s.lower() in f.read().lower():
                 return True
-    except:
+    except:  # noqa: E722
         return False
 
     return False

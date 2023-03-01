@@ -1,13 +1,10 @@
-import sys
 import unittest
 from ansible.template import Templar
 from ansible.parsing.dataloader import DataLoader
 
-from tests import ACTION_PLUGINS_PATH
 from mock import patch, MagicMock, call
 from ansible.playbook.task import Task
 
-sys.path.insert(0, ACTION_PLUGINS_PATH)
 from plugins.action.setup_yaml import ActionModule
 
 
