@@ -16,19 +16,21 @@ test-local:
 		-v /var/run/docker.sock:/var/run/docker.sock \
 		-w /work ${DEPLOYMENT_BASE_IMAGE}:${DEPLOYMENT_BASE_TAG} \
 		bash -c \
-		"make test || bash"
+		"make test"
 
 .PHONY: test
-test: install unit molecule
+test: install lint unit
 
 .PHONY: unit
 unit:
 	for file in $(shell find . -name "test?" -type d); do python -m unittest discover -v -p '*_test.py' -s $$(dirname $$file); done
 
-.PHONY: molecule
-molecule:
-	molecule test
+.PHONY: lint
+lint:
+	flake8
+	yamllint .
+	ANSIBLE_COLLECTIONS_PATH="./common:./partition:./controlplane" ansible-lint
 
 .PHONY: install
 install:
-	pip install --upgrade pip mock metal_python ansible-lint molecule[docker,lint]
+	pip install --upgrade pip mock metal_python ansible-lint yamllint flake8
