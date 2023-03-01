@@ -4,10 +4,10 @@ name: common
 version: 1.0.0
 readme: README.md
 authors:
-- metal-stack
+  - metal-stack
 description: Ansible collection for providing common deployment parts for the metal-stack deployment.
 license:
-- MIT
+  - MIT
 license_file: '../LICENSE'
 tags:
   - application

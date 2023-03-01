@@ -9,7 +9,7 @@
   ansible.posix.synchronize:
     src: "{{ helm_chart_custom_folder }}"
     dest: "{{ helm_chart_remote_temp }}"
-    delete: yes
+    delete: true
   when: helm_chart_custom_folder is defined and helm_chart_custom_folder
 
 - name: Template helm value file
@@ -49,4 +49,4 @@
     {{ helm_chart }}"
   args:
     chdir: "{{ helm_chart_remote_temp }}"
-  changed_when: yes
+  changed_when: true

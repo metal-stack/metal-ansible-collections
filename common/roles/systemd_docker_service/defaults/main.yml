@@ -1,6 +1,6 @@
 ---
-systemd_start: yes
-systemd_external_config_changed: no
+systemd_start: true
+systemd_external_config_changed: false
 systemd_service_environment: {}
 systemd_docker_network:
 systemd_docker_command:

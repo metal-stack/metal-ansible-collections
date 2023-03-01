@@ -2,7 +2,7 @@
 - name: Enable systemd-networkd
   ansible.builtin.systemd:
     name: systemd-networkd
-    enabled: yes
+    enabled: true
     state: started
 
 - name: Copy default file for VRFs
@@ -31,8 +31,8 @@
     mode: 0640
   when: item.name != 'lo'
   notify:
-  - restart systemd-networkd
-  - restart systemd-udev-trigger
+    - restart systemd-networkd
+    - restart systemd-udev-trigger
   loop: "{{ systemd_networkd_nics }}"
   loop_control:
     index_var: i

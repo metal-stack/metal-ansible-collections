@@ -31,18 +31,18 @@
     definition: "{{ lookup('template', 'grafana-dashboards/' + item) }}"
     namespace: "{{ monitoring_namespace }}"
   loop:
-     - machine-capacity.yaml
-     - metal-api.yaml
-     - rethinkdb.yaml
+    - machine-capacity.yaml.j2
+    - metal-api.yaml.j2
+    - rethinkdb.yaml.j2
 
 - name: Create service monitors
   kubernetes.core.k8s:
     definition: "{{ lookup('template', 'servicemonitors/' + item) }}"
     namespace: "{{ monitoring_namespace }}"
   loop:
-    - ipam-db.yaml
-    - masterdata-api.yaml
-    - masterdata-db.yaml
-    - metal-api.yaml
-    - metal-db.yaml
-    - metal-metrics-exporter.yaml
+    - ipam-db.yaml.j2
+    - masterdata-api.yaml.j2
+    - masterdata-db.yaml.j2
+    - metal-api.yaml.j2
+    - metal-db.yaml.j2
+    - metal-metrics-exporter.yaml.j2

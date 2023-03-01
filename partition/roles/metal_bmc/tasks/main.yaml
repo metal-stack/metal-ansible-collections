@@ -5,7 +5,7 @@
 - name: Check mandatory variables for this role are set
   ansible.builtin.assert:
     fail_msg: "not all mandatory variables given, check role documentation"
-    quiet: yes
+    quiet: true
     that:
       - metal_bmc_image_tag is defined
       - metal_bmc_image_name is defined
@@ -29,7 +29,7 @@
     dest: "{{ metal_bmc_nsq_cert_dir }}/{{ item.filename }}"
     mode: 0640
     content: "{{ item.content }}"
-  no_log: yes
+  no_log: true
   loop:
     - filename: ca.pem
       content: "{{ metal_bmc_nsqd_ca_cert }}"
@@ -55,7 +55,7 @@
     mode: 0640
     owner: "{{ metal_bmc_console_cert_owner }}"
     group: "{{ metal_bmc_console_cert_group }}"
-  no_log: yes
+  no_log: true
   loop:
     - filename: ca.pem
       content: "{{ metal_bmc_console_ca_cert }}"
@@ -99,5 +99,5 @@
       METAL_BMC_CONSOLE_PORT: "{{ metal_bmc_console_port }}"
       METAL_BMC_CONSOLE_CA_CERT_FILE: "{{ metal_bmc_console_cert_dir }}/ca.pem"
       METAL_BMC_CONSOLE_CERT_FILE: "{{ metal_bmc_console_cert_dir }}/cert.pem"
-      METAL_BMC_CONSOLE_KEY_FILE:  "{{ metal_bmc_console_cert_dir }}/key.pem"
+      METAL_BMC_CONSOLE_KEY_FILE: "{{ metal_bmc_console_cert_dir }}/key.pem"
   tags: skip_ansible_lint

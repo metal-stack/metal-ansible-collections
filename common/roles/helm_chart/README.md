@@ -40,5 +40,5 @@ Installs a helm chart.
     helm_value_file_template: metal-values.j2
     # deployment can take a while due to post install hooks, therefore increasing the timeout for this chart...
     helm_timeout: 600s
-    helm_chart_inject_config_hash: yes
+    helm_chart_inject_config_hash: true
 ```

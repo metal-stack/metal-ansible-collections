@@ -8,7 +8,7 @@
   ansible.builtin.systemd:
     name: "{{ systemd_service_name }}"
     state: stopped
-    enabled: no
+    enabled: false
   when: systemd_service.stat.exists
 
 - name: Remove service {{ systemd_service_name }}

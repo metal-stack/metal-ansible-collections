@@ -2,7 +2,7 @@
 - name: Check mandatory variables for this role are set
   ansible.builtin.assert:
     fail_msg: "not all mandatory variables given, check role documentation"
-    quiet: yes
+    quiet: true
     that:
       - gitlab_runner_url is not none
       - gitlab_runner_token is not none
@@ -13,7 +13,7 @@
 - name: Install docker as a prerequisite to gitlabci
   ansible.builtin.apt:
     name:
-    - docker.io
+      - docker.io
 
 - name: Check if runner is already registered to avoid double registration
   ansible.builtin.command: grep -Fxq "[[runners]]" {{ gitlab_runner_hostpath }}/etc/gitlab-runner/config.toml

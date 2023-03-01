@@ -13,10 +13,10 @@
 - name: Install required packages to have the network stack in place
   ansible.builtin.apt:
     name:
-    - frr={{ mgmt_server_frr_version }}*
-    - frr-pythontools={{ mgmt_server_frr_version }}*
-    update_cache: yes
-    force_apt_get: yes
+      - frr={{ mgmt_server_frr_version }}*
+      - frr-pythontools={{ mgmt_server_frr_version }}*
+    update_cache: true
+    force_apt_get: true
 
 - name: Enable bgp daemons required to run bgp
   ansible.builtin.copy:

@@ -4,10 +4,10 @@ name: partition
 version: 1.0.0
 readme: README.md
 authors:
-- metal-stack
+  - metal-stack
 description: Ansible collection for deploying a metal-stack partition.
 license:
-- MIT
+  - MIT
 license_file: '../LICENSE'
 tags:
   - application

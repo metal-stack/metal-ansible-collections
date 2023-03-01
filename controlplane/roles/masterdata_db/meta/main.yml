@@ -8,9 +8,9 @@ galaxy_info:
   galaxy_tags: []
 
   platforms:
-  - name: GenericLinux
-    versions:
-    - all
+    - name: GenericLinux
+      versions:
+        - all
 
 dependencies:
   - role: metalstack.common.defaults

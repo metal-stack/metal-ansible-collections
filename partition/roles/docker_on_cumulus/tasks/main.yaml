@@ -1,7 +1,7 @@
 ---
 - name: Ensure dependencies are installed
   ansible.builtin.apt:
-    update_cache: yes
+    update_cache: true
     name:
       - apt-transport-https
       - ca-certificates
@@ -17,19 +17,19 @@
 - name: Add docker engine repo for debian jessie
   ansible.builtin.apt_repository:
     repo: 'deb [arch=amd64] https://download.docker.com/linux/debian jessie edge'
-    update_cache: yes
+    update_cache: true
   when: ansible_distribution_major_version == "3"
 
 - name: Add docker engine repo for debian buster
   ansible.builtin.apt_repository:
     repo: 'deb [arch=amd64] https://download.docker.com/linux/debian buster stable'
-    update_cache: yes
+    update_cache: true
   when: ansible_distribution_major_version == "4"
 
 - name: Install docker
   ansible.builtin.apt:
     name: docker-ce
-    force_apt_get: yes
+    force_apt_get: true
 
 - name: Add docker as systemd service which can run in a vrf
   ansible.builtin.lineinfile:
@@ -65,7 +65,7 @@
   ansible.builtin.systemd:
     state: started
     enabled: true
-    daemon_reload: yes
+    daemon_reload: true
     name: docker
 
 - name: Create docker-system-prune.service
@@ -87,5 +87,5 @@
 - name: Docker-system-prune.timer must be enabled and running
   ansible.builtin.systemd:
     name: docker-system-prune.timer
-    enabled: yes
+    enabled: true
     state: started

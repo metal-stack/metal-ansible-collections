@@ -2,7 +2,7 @@
 - name: Check mandatory variables for this role are set
   ansible.builtin.assert:
     fail_msg: "not all mandatory variables given, check role documentation"
-    quiet: yes
+    quiet: true
     that:
       - wireguard_ip is not none
       - wireguard_clients is not none
@@ -11,7 +11,7 @@
 - name: Install wireguard
   ansible.builtin.apt:
     name: wireguard
-    update_cache: yes
+    update_cache: true
   with_items:
     - wireguard
     - wireguard-dkms
@@ -22,9 +22,9 @@
   ansible.posix.sysctl:
     name: net.ipv4.ip_forward
     value: "1"
-    sysctl_set: yes
+    sysctl_set: true
     state: present
-    reload: yes
+    reload: true
   tags: wg-install
 
 - name: Create WireGuard certificates directory
@@ -52,44 +52,44 @@
   when: not private_key_file_stat.stat.exists
   tags: wg-generate-keys
   block:
-  - name: generate WireGuard private key
-    ansible.builtin.shell: "wg genkey | tee {{ private_key_file_path }}"
-    register: wg_private_key_result
-    tags: skip_ansible_lint
+    - name: generate WireGuard private key
+      ansible.builtin.shell: "wg genkey | tee {{ private_key_file_path }}"
+      register: wg_private_key_result
+      tags: skip_ansible_lint
 
-  - name: Set private key fact
-    ansible.builtin.set_fact:
-      wg_private_key: "{{ wg_private_key_result.stdout }}"
+    - name: Set private key fact
+      ansible.builtin.set_fact:
+        wg_private_key: "{{ wg_private_key_result.stdout }}"
 
-  - name: Generate WireGuard public key
-    ansible.builtin.shell: "echo {{ wg_private_key }} | wg pubkey | tee {{ public_key_file_path }}"
-    register: wg_public_key_result
-    tags: skip_ansible_lint
+    - name: Generate WireGuard public key
+      ansible.builtin.shell: "echo {{ wg_private_key }} | wg pubkey | tee {{ public_key_file_path }}"
+      register: wg_public_key_result
+      tags: skip_ansible_lint
 
-  - name: Set public key fact
-    ansible.builtin.set_fact:
-      wg_public_key: "{{ wg_public_key_result.stdout }}"
+    - name: Set public key fact
+      ansible.builtin.set_fact:
+        wg_public_key: "{{ wg_public_key_result.stdout }}"
 
 - name: Write WireGuard configuration
   tags: wg-config
   block:
-  - name: Slurp private key file
-    ansible.builtin.slurp:
-      src: "{{ private_key_file_path }}"
-    register: slurped_private_key
+    - name: Slurp private key file
+      ansible.builtin.slurp:
+        src: "{{ private_key_file_path }}"
+      register: slurped_private_key
 
-  - name: Read private key
-    ansible.builtin.set_fact:
-      private_key: "{{ slurped_private_key.content | b64decode }}"
+    - name: Read private key
+      ansible.builtin.set_fact:
+        private_key: "{{ slurped_private_key.content | b64decode }}"
 
-  - name: Render wireguard configuration
-    ansible.builtin.template:
-      dest: /etc/wireguard/wg0.conf
-      src: wireguard_server.conf.j2
-      owner: root
-      group: root
-      mode: 0640
-    notify: enable and restart wireguard
+    - name: Render wireguard configuration
+      ansible.builtin.template:
+        dest: /etc/wireguard/wg0.conf
+        src: wireguard_server.conf.j2
+        owner: root
+        group: root
+        mode: 0640
+      notify: enable and restart wireguard
 
 - name: Start WireGuard
   ansible.builtin.service:

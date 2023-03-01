@@ -15,7 +15,7 @@ monitoring_grafana_additional_datasources:
 
 monitoring_grafana_ingress_dns: "grafana.{{ metal_control_plane_ingress_dns }}"
 monitoring_prometheus_ingress_dns: prometheus.{{ metal_control_plane_ingress_dns }}
-monitoring_ingress_grafana_tls: yes
+monitoring_ingress_grafana_tls: true
 monitoring_prometheus_ingress_enabled: false
 monitoring_additional_ingress_annotations: {}
 

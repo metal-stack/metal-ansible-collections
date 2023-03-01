@@ -5,7 +5,7 @@
 - name: Check mandatory variables for this role are set
   ansible.builtin.assert:
     fail_msg: "not all mandatory variables given, check role documentation"
-    quiet: yes
+    quiet: true
     that:
       - dhcp_listening_interfaces | type_debug == "list"
       - item.network is defined
@@ -20,8 +20,8 @@
 - name: Install isc-dhcp-server
   ansible.builtin.apt:
     name:
-    - isc-dhcp-server
-    update_cache: yes
+      - isc-dhcp-server
+    update_cache: true
 
 - name: Render dhcpd conf
   ansible.builtin.template:

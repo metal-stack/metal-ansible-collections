@@ -5,7 +5,7 @@
 - name: Check mandatory variables for this role are set
   ansible.builtin.assert:
     fail_msg: "not all mandatory variables given, check role documentation"
-    quiet: yes
+    quiet: true
     that:
       - headscale_image_name is defined
       - headscale_image_tag is defined
@@ -57,7 +57,7 @@
   kubernetes.core.k8s:
     definition: "{{ lookup('template', 'headscale.yaml.j2') }}"
     namespace: "{{ headscale_namespace }}"
-    apply: yes
+    apply: true
 
 - name: Determine if api key secret was already created
   ansible.builtin.set_fact:

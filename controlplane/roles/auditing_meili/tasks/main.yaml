@@ -33,4 +33,4 @@
     helm_target_namespace: "{{ auditing_meili_namespace }}"
     helm_chart_version: "{{ metal_auditing_meili_chart_version }}"
     helm_release_name: auditing-meili
-    helm_value_file_template: "values.yaml"
+    helm_value_file_template: "values.yaml.j2"

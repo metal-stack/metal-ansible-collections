@@ -8,12 +8,12 @@ galaxy_info:
   galaxy_tags: []
 
   platforms:
-  - name: Cumulus
-    versions:
-    - all
-  - name: Debian
-    versions:
-    - all
+    - name: Cumulus
+      versions:
+        - all
+    - name: Debian
+      versions:
+        - all
 
 dependencies:
   - role: metalstack.common.defaults

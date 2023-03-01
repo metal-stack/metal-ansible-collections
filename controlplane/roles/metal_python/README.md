@@ -35,5 +35,5 @@ None
     name: metalstack.controlplane.metal-python
   vars:
     metal_python_version: "my-nice-feature"
-    metal_python_install_from_git_repository: yes
+    metal_python_install_from_git_repository: true
 ```

@@ -26,7 +26,7 @@ unit:
 .PHONY: lint
 lint:
 	flake8
-	yamllint .
+	yamllint common controlplane partition
 	ansible-galaxy collection install . && ansible-lint
 
 .PHONY: install

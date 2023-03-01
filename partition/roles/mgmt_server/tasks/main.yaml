@@ -2,7 +2,7 @@
 - name: Check mandatory variables for this role are set
   ansible.builtin.assert:
     fail_msg: "not all mandatory variables given, check role documentation"
-    quiet: yes
+    quiet: true
     that:
       - mgmt_server_asn is not none
       - mgmt_server_router_id is not none
@@ -32,12 +32,12 @@
 - name: Install required packages to have the network stack in place
   ansible.builtin.apt:
     name:
-    - net-tools
-    - ipmitool
-    - docker-ce
-    - iptables-persistent
-    update_cache: yes
-    force_apt_get: yes
+      - net-tools
+      - ipmitool
+      - docker-ce
+      - iptables-persistent
+    update_cache: true
+    force_apt_get: true
 
 - name: Copy docker daemon.json
   ansible.builtin.template:
@@ -50,7 +50,7 @@
   ansible.posix.sysctl:
     name: "{{ item.key }}"
     value: "{{ item.value }}"
-    sysctl_set: yes
+    sysctl_set: true
   loop:
     - key: "net.ipv6.conf.{{ mgmt_server_spine_facing_interface }}.disable_ipv6"
       value: '0'
