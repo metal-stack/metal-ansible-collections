@@ -31,7 +31,7 @@ Renders a systemd unit file that runs an application within a docker container.
 
 ## Examples
 
-```
+```yaml
 - name: deploy metal-core service
   ansible.builtin.include_role:
     name: metalstack.common.systemd_docker_service

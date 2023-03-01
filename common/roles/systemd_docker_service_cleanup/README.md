@@ -10,7 +10,7 @@ Stops a systemd unit and deletes its service definition.
 
 ## Examples
 
-```
+```yaml
 - name: cleanup metal-core service
   ansible.builtin.include_role:
     name: metalstack.common.systemd_docker_service_cleanup
