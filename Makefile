@@ -3,6 +3,7 @@ DEPLOYMENT_BASE_TAG := latest
 
 ifeq ($(CI),true)
   DOCKER_TTY_ARG=
+  FORCE_COLORS=-e PY_COLORS=1 -e ANSIBLE_FORCE_COLOR=1
 else
   DOCKER_TTY_ARG=t
 endif
@@ -10,7 +11,7 @@ endif
 .PHONY: test-local
 test-local:
 	docker pull ${DEPLOYMENT_BASE_IMAGE}:${DEPLOYMENT_BASE_TAG}
-	docker run --rm -i$(DOCKER_TTY_ARG) \
+	docker run --rm -i$(DOCKER_TTY_ARG) $(FORCE_COLORS) \
 		-v $(PWD):/work \
 		-v /var/run/docker.sock:/var/run/docker.sock \
 		-w /work ${DEPLOYMENT_BASE_IMAGE}:${DEPLOYMENT_BASE_TAG} \
