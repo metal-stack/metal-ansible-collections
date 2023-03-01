@@ -1,0 +1,4 @@
+---
+collections:
+  - source: ../common
+    type: dir

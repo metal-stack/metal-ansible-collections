@@ -1,6 +1,8 @@
 ---
 dependency:
   name: galaxy
+  env:
+    ANSIBLE_COLLECTIONS_PATH: "."
 driver:
   name: docker
 platforms:
