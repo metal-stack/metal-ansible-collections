@@ -1,12 +1,9 @@
-import sys
 import unittest
 
 from datetime import datetime
 from mock import patch, MagicMock
-from tests import INVENTORY_PATH
 from metal_python import models
 
-sys.path.insert(0, INVENTORY_PATH)
 from plugins.inventory import metal
 
 test_timestamp = datetime.now()

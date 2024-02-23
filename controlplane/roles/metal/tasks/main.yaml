@@ -3,9 +3,9 @@
   metalstack.common.setup_yaml:
 
 - name: Check mandatory variables for this role are set
-  assert:
+  ansible.builtin.assert:
     fail_msg: "not all mandatory variables given, check role documentation"
-    quiet: yes
+    quiet: true
     that:
       - metal_api_image_name is defined
       - metal_api_image_tag is defined
@@ -25,7 +25,7 @@
       - not metal_api_s3_enabled or metal_api_s3_address is not none
 
 - name: Create meili secret for control plane
-  k8s:
+  kubernetes.core.k8s:
     definition:
       apiVersion: v1
       kind: Secret
@@ -37,7 +37,7 @@
   when: metal_auditing_meili_api_key
 
 - name: Deploy metal control plane
-  include_role:
+  ansible.builtin.include_role:
     name: metalstack.common.helm_chart
   vars:
     helm_repo: "{{ metal_helm_chart_repo | default(omit) }}"
@@ -49,15 +49,15 @@
     helm_value_file_template: metal-values.j2
     # deployment can take a while due to post install hooks, therefore increasing the timeout for this chart...
     helm_timeout: "{{ metal_helm_chart_timeout }}"
-    helm_chart_inject_config_hash: yes
+    helm_chart_inject_config_hash: true
 
 # for automation tests, we need to wait until all the services are ready...
 - name: Wait until api is available
-  uri:
+  ansible.builtin.uri:
     url: "{{ metal_check_api_health_endpoint }}"
     follow_redirects: safe
     status_code: 200
-    validate_certs: no
+    validate_certs: false
   register: result
   until: result is success
   retries: 60

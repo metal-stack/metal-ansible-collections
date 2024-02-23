@@ -1,4 +1,17 @@
 ---
+galaxy_info:
+  role_name: logging
+  author: metal-stack
+  description: This role is designed to set up logging using Ansible.
+  license: MIT
+  min_ansible_version: "2.10"
+  galaxy_tags: []
+
+  platforms:
+    - name: GenericLinux
+      versions:
+        - all
+
 dependencies:
-  - metalstack.common.defaults
-  - metalstack.controlplane.defaults
+  - role: metalstack.common.defaults
+  - role: metalstack.controlplane.defaults

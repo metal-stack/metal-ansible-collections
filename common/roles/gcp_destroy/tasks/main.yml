@@ -1,6 +1,7 @@
 ---
 - name: Destroy GCP Cluster
-  command: gcloud container --project {{ gcp_project }} clusters delete {{ gcp_cluster_name }}
+  ansible.builtin.command: gcloud container --project {{ gcp_project }} clusters delete {{ gcp_cluster_name }}
     --quiet
     --zone {{ gcp_location }}
     --account {{ gcp_service_account }}
+  changed_when: true

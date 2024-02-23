@@ -1,19 +1,20 @@
 ---
 - name: Retrieve list of available K8s versions
-  command: gcloud container get-server-config --zone {{ gcp_location }} --format json
+  ansible.builtin.command: gcloud container get-server-config --zone {{ gcp_location }} --format json
   register: gcp_k8s_versions
+  changed_when: false
   when: gcp_k8s_version is not defined
 
 - name: Extract latest K8s version from list
-  set_fact:
+  ansible.builtin.set_fact:
     gcp_k8s_version: "{{ (gcp_k8s_versions.stdout | from_json).get('validMasterVersions')[0] }}"
   when: gcp_k8s_version is not defined
 
 # before creating the cluster, a default network is necessary. this can be created with:
-# gcloud compute networks create default --project={{ gcp_project } --description=Default --subnet-mode=auto --mtu=1460 --bgp-routing-mode=regional
+# gcloud compute networks create default --project={{ gcp_project }} --description=Default --subnet-mode=auto --mtu=1460 --bgp-routing-mode=regional
 
 - name: Create GCP Cluster
-  command: gcloud container --project {{ gcp_project }} clusters create {{ gcp_cluster_name }}
+  ansible.builtin.command: gcloud container --project {{ gcp_project }} clusters create {{ gcp_cluster_name }}
     --zone {{ gcp_location }}
     --no-enable-basic-auth
     --cluster-version {{ gcp_k8s_version }}

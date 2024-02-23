@@ -4,7 +4,7 @@ Deploys [nsq](https://nsq.io/) in a standalone configuration.
 
 The admin console can be reached by using port-forwarding:
 
-```
+```bash
 kubectl port-forward -n metal-control-plane svc/nsqadmin 4171
 ```
 

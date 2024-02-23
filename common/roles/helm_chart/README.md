@@ -28,9 +28,9 @@ Installs a helm chart.
 
 ## Examples
 
-```
+```yaml
 - name: Deploy metal control plane
-  include_role:
+  ansible.builtin.include_role:
     name: metalstack.common.helm_chart
   vars:
     helm_chart_custom_folder: "{{ playbook_dir }}/roles/metal/files/metal-control-plane"
@@ -40,5 +40,5 @@ Installs a helm chart.
     helm_value_file_template: metal-values.j2
     # deployment can take a while due to post install hooks, therefore increasing the timeout for this chart...
     helm_timeout: 600s
-    helm_chart_inject_config_hash: yes
+    helm_chart_inject_config_hash: true
 ```

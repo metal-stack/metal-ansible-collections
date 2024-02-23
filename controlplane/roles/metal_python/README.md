@@ -19,21 +19,21 @@ None
 
 ## Examples
 
-```
+```yaml
 - name: Install metal-python
-  include_role:
+  ansible.builtin.include_role:
     name: metalstack.controlplane.metal-python
 
 - name: Install specific metal-python version
-  include_role:
+  ansible.builtin.include_role:
     name: metalstack.controlplane.metal-python
   vars:
     metal_python_version: "0.10.0"
 
 - name: Install metal-python devel branch
-  include_role:
+  ansible.builtin.include_role:
     name: metalstack.controlplane.metal-python
   vars:
     metal_python_version: "my-nice-feature"
-    metal_python_install_from_git_repository: yes
+    metal_python_install_from_git_repository: true
 ```
