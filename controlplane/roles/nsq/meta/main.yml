@@ -1,4 +1,0 @@
----
-dependencies:
-  - metalstack.common.defaults
-  - metalstack.controlplane.defaults
